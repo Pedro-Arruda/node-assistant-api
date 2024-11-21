@@ -28,7 +28,6 @@ export class AddWatchListItemUseCase {
   }: AddWatchListItemUseCaseRequest): Promise<any> {
     const notionService = new NotionService({
       accessToken: "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",
-      databaseId: "145675fb5be08102bb11eb539a33a787",
     });
 
     const response = await notionService.createWatchListPage({

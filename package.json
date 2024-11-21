@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "tsx watch src/server.ts",
     "start": "node build/server.ts",
-    "build": "tsup src --out-dir build",
+    "build": "prisma generate && tsc",
     "test": "vitest run --dir src/use-cases",
     "test:watch": "vitest --dir src/use-cases",
     "test:e2e": "vitest run --dir src/http",
