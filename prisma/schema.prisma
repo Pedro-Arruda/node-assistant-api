@@ -1,0 +1,41 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                  String              @id @default(uuid())
+  name                String?
+  email               String              @unique
+  created_at          DateTime            @default(now())
+  notion_access_token String?
+  notion_pages_genres NotionPagesGenres[]
+  notion_databases    NotionDatabase[]
+
+  @@map("users")
+}
+
+model NotionPagesGenres {
+  id      String @id @default(uuid())
+  page_id String
+  genre   String
+  user    User   @relation(fields: [user_id], references: [id])
+  user_id String
+
+  @@map("notion_pages_genres")
+}
+
+model NotionDatabase {
+  id         String   @id @default(uuid())
+  type       String
+  user       User     @relation(fields: [user_id], references: [id])
+  user_id    String
+  notion_id  String
+  created_at DateTime @default(now())
+
+  @@map("notion_databases")
+}
