@@ -11,6 +11,8 @@ app.register(moviesRoutes);
 app.register(seriesRoutes);
 app.register(authRoutes);
 
+app.get("/", (req, reply) => reply.send("API - Notion Assistant"));
+
 app.setErrorHandler((error, _, reply) => {
   if (error instanceof ZodError) {
     return reply
