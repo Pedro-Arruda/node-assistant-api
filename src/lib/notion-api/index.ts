@@ -49,7 +49,9 @@ export class NotionService {
         },
       });
 
+      console.log("response access token", response);
       const data = await response.json();
+      console.log("data access token", data);
 
       return data;
     } catch (error) {

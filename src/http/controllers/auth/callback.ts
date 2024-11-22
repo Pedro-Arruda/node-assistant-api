@@ -17,9 +17,6 @@ export const callback = async (req: FastifyRequest, reply: FastifyReply) => {
     code,
   });
 
-  console.log("access_token", access_token);
-  console.log("owner", owner);
-
   const user = await prisma.user.create({
     data: {
       email: owner.user.person.email,
