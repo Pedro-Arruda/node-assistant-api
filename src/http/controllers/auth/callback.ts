@@ -51,5 +51,5 @@ export const callback = async (req: FastifyRequest, reply: FastifyReply) => {
     ],
   });
 
-  reply.status(201).send({ user });
+  reply.redirect(`http://localhost:5173/success`);
 };
