@@ -38,7 +38,7 @@ export class NotionService {
         body: JSON.stringify({
           grant_type: "authorization_code",
           code,
-          redirect_uri: `https://localhost:3333`,
+          redirect_uri: `https://notion-assistant-api.vercel.app/notion/auth/callback`,
         }),
         headers: {
           "Content-Type": "application/json",
