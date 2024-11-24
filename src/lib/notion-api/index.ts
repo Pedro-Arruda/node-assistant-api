@@ -17,7 +17,7 @@ export class NotionService {
   async createWatchListPage(data: CreateWatchListItemNotion) {
     try {
       const response = await this.notion.pages.create({
-        parent: { database_id: "" },
+        parent: { database_id: "146675fb5be081a8816afa41b5d136f5" },
         cover: {
           external: { url: data.image },
         },

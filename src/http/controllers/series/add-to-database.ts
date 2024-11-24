@@ -30,7 +30,7 @@ export const addToDatabase = async (
     title: serieInfos.details.original_name,
     vote_average: serieInfos.details.vote_average,
     genres: serieInfos.genres,
-    categorie: "141675fb5be081259a88ccfe0a860458",
+    categorie: "146675fb5be0813ea6b5cec8eae61e2b",
   });
 
   reply.status(201).send(response);

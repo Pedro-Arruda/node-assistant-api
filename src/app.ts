@@ -15,31 +15,42 @@ app.register(fastifyFormBody);
 
 app.get("/", (req, reply) => reply.send("API - Notion Assistant"));
 
-app.post("/webhook", (req: any, reply) => {
-  console.log("teste");
-  const incomingMessage = req.body.Body; // Mensagem recebida
-  const fromNumber = req.body.From; // Número do remetente
+app.post("/webhook", async (req: any, reply) => {
+  const { Body, From } = req.body;
 
-  console.log(`Mensagem recebida de ${fromNumber}: ${incomingMessage}`);
-  // const incomingMessage = req.body.Body;
-  // const fromNumber = req.body.From;
+  console.log("Body", Body);
 
-  // console.log(`Mensagem recebida de ${fromNumber}: ${incomingMessage}`);
+  let responseMessage = "";
 
-  // client.messages
-  //   .create({
-  //     from: "whatsapp:+14155238886",
-  //     body: `Você disse: "${incomingMessage}". Obrigado por interagir!`,
-  //     to: fromNumber,
-  //   })
-  //   .then(() => {
-  //     res.send("<Response></Response>");
-  //   })
-  //   .catch((err) => {
-  //     console.error(err);
-  //     res.status(500).send("Erro ao processar a mensagem.");
-  //   });
-  reply.send("WEBHOOK");
+  if (
+    Body.toLowerCase().includes("series") ||
+    Body.toLowerCase().includes("serie")
+  ) {
+    responseMessage = "Sua série será adicionada!";
+
+    await app.inject({
+      method: "POST",
+      url: "/notion/series/add",
+      payload: {
+        title: Body.toLowerCase().replace("series", "").replace("serie", ""),
+      },
+    });
+  } else if (
+    Body.toLowerCase().includes("filmes") ||
+    Body.toLowerCase().includes("filme")
+  ) {
+    responseMessage = "Seu filme será adicionado!";
+
+    await app.inject({
+      method: "POST",
+      url: "/notion/movies/add",
+      payload: {
+        title: Body.toLowerCase().replace("filmes", "").replace("filme", ""),
+      },
+    });
+  }
+
+  reply.send(responseMessage);
 });
 
 app.setErrorHandler((error, _, reply) => {
