@@ -1,7 +1,6 @@
 import { CreateWatchListItemNotion } from ".";
 import { convertMinutesToTimeString } from "../../utils/convertMinutesToTimeString";
 import { dateFormat } from "../../utils/dateFormat";
-import { prisma } from "../prisma";
 
 export const createWatchListItemProperties = async ({
   title,
@@ -13,17 +12,6 @@ export const createWatchListItemProperties = async ({
   genres,
   categorie,
 }: CreateWatchListItemNotion) => {
-  const userId = "7393e882-64f4-4858-abbe-b31db3df0a2c";
-  const genresId = await prisma.notionPagesGenres.findMany({
-    where: {
-      user_id: userId,
-      genre: {
-        in: genres,
-      },
-    },
-    select: { page_id: true },
-  });
-
   return {
     title: {
       title: [{ text: { content: title } }],
@@ -56,7 +44,7 @@ export const createWatchListItemProperties = async ({
       relation: [{ id: categorie }],
     },
     Genres: {
-      relation: genresId.map((genre) => ({ id: genre.page_id })),
+      relation: genres,
     },
     Synopsis: {
       rich_text: [

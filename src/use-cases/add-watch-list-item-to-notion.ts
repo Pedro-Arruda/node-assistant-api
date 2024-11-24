@@ -6,7 +6,7 @@ interface AddWatchListItemUseCaseRequest {
   duration: string | number;
   vote_average: number;
   streamings: string[];
-  genres: string[];
+  genres: { id: string }[];
   synopsis: string;
   release_date: string;
   categorie: string;
