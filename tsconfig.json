@@ -10,7 +10,7 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "env.d.ts", "src/bot.js", "bot.ts", "src/bot.js"],
+  "include": ["src/**/*.ts", "src/**/*.d.ts", "env.d.ts"],
   "ts-node": {
     "files": true
   }
