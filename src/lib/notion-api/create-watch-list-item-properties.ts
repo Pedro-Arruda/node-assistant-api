@@ -13,7 +13,7 @@ export const createWatchListItemProperties = async ({
   genres,
   categorie,
 }: CreateWatchListItemNotion) => {
-  const userId = "301131a6-01eb-40c5-bb82-760fd59f09e9";
+  const userId = "7393e882-64f4-4858-abbe-b31db3df0a2c";
   const genresId = await prisma.notionPagesGenres.findMany({
     where: {
       user_id: userId,
