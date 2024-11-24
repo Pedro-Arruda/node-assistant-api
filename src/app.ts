@@ -33,6 +33,7 @@ app.post("/webhook", (req, reply) => {
   //     console.error(err);
   //     res.status(500).send("Erro ao processar a mensagem.");
   //   });
+  reply.send("WEBHOOK");
 });
 
 app.setErrorHandler((error, _, reply) => {
