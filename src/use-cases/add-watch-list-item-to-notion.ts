@@ -42,6 +42,8 @@ export class AddWatchListItemUseCase {
       categorie,
     });
 
+    console.log("response use case", response);
+
     return response;
   }
 }

@@ -15,7 +15,7 @@ export const addToDatabase = async (
 
   const { title } = addSerieBodySchema.parse(req.body);
 
-  console.log("title usecase", title);
+  console.log("title controller", title);
 
   const serieDatabaseService = new MovieApiDatabaseService();
   const getSerieDetailsUseCase = new GetSerieInfoUseCase(serieDatabaseService);
@@ -36,6 +36,8 @@ export const addToDatabase = async (
   });
 
   const genres = genresId.map((genre) => ({ id: genre.page_id }));
+
+  console.log("genres controller", genres);
 
   const response = addWatchListUseCase.execute({
     duration: `${serieInfos.details.number_of_seasons} seasons and ${serieInfos.details.number_of_episodes} episodes`,
