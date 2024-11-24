@@ -24,9 +24,13 @@ export class NotionService {
         properties: await createWatchListItemProperties(data),
       });
 
-      console.log("response create page", response);
+      if (!response) {
+        throw new Error("aaaaaaaaaa");
+      } else {
+        console.log("response create page", response);
 
-      return response;
+        return response;
+      }
     } catch (error) {
       console.error(error);
       throw new Error("Erro ao salvar dados no Notion");

@@ -39,7 +39,7 @@ export const addToDatabase = async (
 
   console.log("genres controller", genres);
 
-  const response = addWatchListUseCase.execute({
+  const response = await addWatchListUseCase.execute({
     duration: `${serieInfos.details.number_of_seasons} seasons and ${serieInfos.details.number_of_episodes} episodes`,
     image: serieInfos.details.backdrop_path,
     release_date: serieInfos.details.release_date,
