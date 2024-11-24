@@ -24,6 +24,8 @@ export class NotionService {
         properties: await createWatchListItemProperties(data),
       });
 
+      console.log("response create page", response);
+
       return response;
     } catch (error) {
       console.error(error);

@@ -14,6 +14,8 @@ export const addToDatabase = async (
 
   const { title } = addSerieBodySchema.parse(req.body);
 
+  console.log("title usecase", title);
+
   const serieDatabaseService = new MovieApiDatabaseService();
   const getSerieDetailsUseCase = new GetSerieInfoUseCase(serieDatabaseService);
 

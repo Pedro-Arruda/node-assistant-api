@@ -28,6 +28,11 @@ app.post("/webhook", async (req: any, reply) => {
   ) {
     responseMessage = "Sua série será adicionada!";
 
+    console.log(
+      ` Body.toLowerCase().replace("series", "").replace("serie", "")`,
+      Body.toLowerCase().replace("series", "").replace("serie", "")
+    );
+
     await app.inject({
       method: "POST",
       url: "/notion/series/add",
