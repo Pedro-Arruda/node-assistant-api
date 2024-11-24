@@ -4,7 +4,7 @@ import { env } from "./env";
 import { moviesRoutes } from "./http/controllers/movies/routes";
 import { seriesRoutes } from "./http/controllers/series/routes";
 import { authRoutes } from "./http/controllers/auth/routes";
-import fastifyFormBody from "fastify-formbody";
+import fastifyFormBody from "@fastify/formbody";
 
 export const app = fastify();
 
