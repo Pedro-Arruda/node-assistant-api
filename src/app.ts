@@ -4,17 +4,23 @@ import { env } from "./env";
 import { moviesRoutes } from "./http/controllers/movies/routes";
 import { seriesRoutes } from "./http/controllers/series/routes";
 import { authRoutes } from "./http/controllers/auth/routes";
+import fastifyFormBody from "fastify-formbody";
 
 export const app = fastify();
 
 app.register(moviesRoutes);
 app.register(seriesRoutes);
 app.register(authRoutes);
+app.register(fastifyFormBody);
 
 app.get("/", (req, reply) => reply.send("API - Notion Assistant"));
 
-app.post("/webhook", (req, reply) => {
+app.post("/webhook", (req: any, reply) => {
   console.log("teste");
+  const incomingMessage = req.body.Body; // Mensagem recebida
+  const fromNumber = req.body.From; // Número do remetente
+
+  console.log(`Mensagem recebida de ${fromNumber}: ${incomingMessage}`);
   // const incomingMessage = req.body.Body;
   // const fromNumber = req.body.From;
 
