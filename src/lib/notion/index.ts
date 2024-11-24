@@ -9,7 +9,6 @@ export class NotionService {
   constructor({ accessToken }: { accessToken: string }) {
     this.accessToken = accessToken;
     this.notion = new Client({
-      // auth: "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",
       auth: this.accessToken,
     });
   }
@@ -17,20 +16,14 @@ export class NotionService {
   async createWatchListPage(data: CreateWatchListItemNotion) {
     try {
       const response = await this.notion.pages.create({
-        parent: { database_id: "146675fb5be081a8816afa41b5d136f5" },
+        parent: { database_id: "148675fb5be081ebb7f0ccf02487aa75" },
         cover: {
           external: { url: data.image },
         },
         properties: await createWatchListItemProperties(data),
       });
 
-      if (!response) {
-        throw new Error("aaaaaaaaaa");
-      } else {
-        console.log("response create page", response);
-
-        return response;
-      }
+      return response;
     } catch (error) {
       console.error(error);
       throw new Error("Erro ao salvar dados no Notion");
@@ -55,9 +48,7 @@ export class NotionService {
         },
       });
 
-      console.log("response access token", response);
       const data = await response.json();
-      console.log("data access token", data);
 
       return data;
     } catch (error) {
@@ -87,6 +78,14 @@ export class NotionService {
       console.error(error);
       throw new Error("Erro ao salvar dados no Notion");
     }
+  }
+
+  async getDatabasesPages(databaseId: string) {
+    const response = await this.notion.databases.query({
+      database_id: databaseId,
+    });
+
+    return response;
   }
 }
 

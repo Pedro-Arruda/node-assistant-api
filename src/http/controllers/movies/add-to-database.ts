@@ -33,7 +33,5 @@ export const addToDatabase = async (
     categorie: "141675fb5be081b2b112db881e316e29",
   });
 
-  console.log(response);
-
   reply.status(201).send(response);
 };

@@ -58,6 +58,8 @@ export class MovieApiDatabaseService implements IMovieDatabaseService {
   }
 
   async getSerieIdByTitle(title: string) {
+    console.log("title", title);
+
     try {
       const response = await fetchItemApi({
         endpoint: `/search/tv?query=${title}&language=pt-br`,

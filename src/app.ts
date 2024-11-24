@@ -18,8 +18,6 @@ app.get("/", (req, reply) => reply.send("API - Notion Assistant"));
 app.post("/webhook", async (req: any, reply) => {
   const { Body, From } = req.body;
 
-  console.log("Body", Body);
-
   let responseMessage = "";
 
   if (
@@ -28,16 +26,18 @@ app.post("/webhook", async (req: any, reply) => {
   ) {
     responseMessage = "Sua série será adicionada!";
 
-    console.log(
-      ` Body.toLowerCase().replace("series", "").replace("serie", "")`,
-      Body.toLowerCase().replace("series", "").replace("serie", "")
-    );
+    const serieTitle = Body.toLowerCase()
+      .replace("series", "")
+      .replace("serie", "")
+      .trim();
 
     await app.inject({
       method: "POST",
       url: "/notion/series/add",
       payload: {
-        title: Body.toLowerCase().replace("series", "").replace("serie", ""),
+        title: serieTitle,
+        // userId: "148675fb-5be0-8106-9139-f5ee787343ae",
+        userId: "08d1c145-5ed9-4830-9c82-bd519bc0a4cd",
       },
     });
   } else if (

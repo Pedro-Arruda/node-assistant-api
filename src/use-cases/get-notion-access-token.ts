@@ -1,4 +1,4 @@
-import { NotionService } from "../lib/notion-api";
+import { NotionService } from "../lib/notion";
 
 interface GetNotionAccessTokenUseCaseRequest {
   code: string;
