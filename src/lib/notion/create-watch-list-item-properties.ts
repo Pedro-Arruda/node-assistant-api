@@ -3,15 +3,20 @@ import { convertMinutesToTimeString } from "../../utils/convertMinutesToTimeStri
 import { dateFormat } from "../../utils/dateFormat";
 
 export const createWatchListItemProperties = async ({
-  title,
-  duration,
-  vote_average,
-  streamings,
-  synopsis,
-  release_date,
-  genres,
-  categorie,
+  data,
 }: CreateWatchListItemNotion) => {
+  const {
+    categorie,
+    duration,
+    genres,
+    image,
+    release_date,
+    streamings,
+    synopsis,
+    title,
+    vote_average,
+  } = data;
+
   return {
     title: {
       title: [{ text: { content: title } }],
