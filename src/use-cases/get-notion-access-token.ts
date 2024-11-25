@@ -7,15 +7,15 @@ interface GetNotionAccessTokenUseCaseRequest {
 export class GetNotionAccessTokenUseCase {
   constructor() {}
 
-  async execute({ code }: GetNotionAccessTokenUseCaseRequest): Promise<any> {
+  async execute({ code }: GetNotionAccessTokenUseCaseRequest) {
     const notionService = new NotionService({
       accessToken: "",
     });
 
-    const data = await notionService.getAccessToken({
+    const { access_token, owner } = await notionService.getAccessToken({
       code,
     });
 
-    return data;
+    return { access_token, owner };
   }
 }

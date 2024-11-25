@@ -50,7 +50,17 @@ export class NotionService {
         },
       });
 
-      const data = await response.json();
+      const data: {
+        access_token: string;
+        owner: {
+          user: {
+            person: {
+              email: string;
+            };
+            name: string;
+          };
+        };
+      } = await response.json();
 
       return data;
     } catch (error) {
@@ -59,7 +69,7 @@ export class NotionService {
     }
   }
 
-  async getUserDatabasesId() {
+  async getUserDatabases() {
     try {
       const response = await this.notion.search({
         filter: { value: "database", property: "object" },

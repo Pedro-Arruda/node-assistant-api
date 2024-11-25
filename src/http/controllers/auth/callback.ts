@@ -2,7 +2,7 @@ import { z } from "zod";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { GetNotionAccessTokenUseCase } from "../../../use-cases/get-notion-access-token";
 import { prisma } from "../../../lib/prisma";
-import { GetUserNotionDatabasesIdUseCase } from "../../../use-cases/get-user-notion-databases-id";
+import { GetUserNotionDatabasesIdUseCase } from "../../../use-cases/get-user-notion-databases";
 
 export const callback = async (req: FastifyRequest, reply: FastifyReply) => {
   const addMovieQuerySchema = z.object({
@@ -27,9 +27,7 @@ export const callback = async (req: FastifyRequest, reply: FastifyReply) => {
 
   const getUserDatabasesUseCase = new GetUserNotionDatabasesIdUseCase();
 
-  const { databases } = await getUserDatabasesUseCase.execute(
-    user.notion_access_token ?? ""
-  );
+  const { databases } = await getUserDatabasesUseCase.execute(access_token);
 
   await prisma.notionDatabase.createMany({
     data: [

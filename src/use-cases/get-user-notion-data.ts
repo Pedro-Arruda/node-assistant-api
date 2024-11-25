@@ -12,20 +12,33 @@ export class GetUserNotionData {
       select: { notion_access_token: true },
     });
 
-    if (!userGenreDatabases || !userAccessToken) {
+    if (
+      !userGenreDatabases ||
+      !userAccessToken ||
+      !userAccessToken.notion_access_token
+    ) {
       throw new Error("Dados do usuário não encontrados");
     }
 
+    const genreDatabase = userGenreDatabases.find((db) => db.type === "genres");
+
+    const categoryDatabase = userGenreDatabases.find(
+      (db) => db.type === "categories"
+    );
+
+    const contentsDatabase = userGenreDatabases.find(
+      (db) => db.type === "contents"
+    );
+
+    if (!genreDatabase || !categoryDatabase || !contentsDatabase) {
+      throw new Error("Databases não encontrados");
+    }
+
     return {
-      genreDatabaseId: userGenreDatabases.find((db) => db.type === "genres")
-        ?.notion_id,
-      categoryDatabaseId: userGenreDatabases.find(
-        (db) => db.type === "categories"
-      )?.notion_id,
-      contentsDatabaseId: userGenreDatabases.find(
-        (db) => db.type === "contents"
-      )?.notion_id,
-      notionAccessToken: userAccessToken.notion_access_token ?? "",
+      genreDatabase,
+      categoryDatabase,
+      contentsDatabase,
+      accessToken: userAccessToken.notion_access_token,
     };
   }
 }

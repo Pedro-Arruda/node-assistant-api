@@ -8,7 +8,7 @@ export class GetUserNotionDatabasesIdUseCase {
       accessToken: accessToken,
     });
 
-    const databases = await notionService.getUserDatabasesId();
+    const databases = await notionService.getUserDatabases();
 
     return databases;
   }
