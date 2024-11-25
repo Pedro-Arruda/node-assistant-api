@@ -23,8 +23,12 @@ export const addToDatabase = async (
   const serieInfos = await getSerieDetailsUseCase.execute({ title });
 
   const getUserNotionData = new GetUserNotionData();
-  const { genreDatabaseId, categoryDatabaseId, notionAccessToken } =
-    await getUserNotionData.execute(userId);
+  const {
+    genreDatabaseId,
+    categoryDatabaseId,
+    contentsDatabaseId,
+    notionAccessToken,
+  } = await getUserNotionData.execute(userId);
 
   const getGenreDatabaseIdUseCase = new GetGenreDatabaseIdUseCase({
     genresDatabaseId: genreDatabaseId!,
@@ -61,6 +65,7 @@ export const addToDatabase = async (
       categorie: seriesId || "",
     },
     accessToken: notionAccessToken,
+    databaseId: contentsDatabaseId || "",
   });
 
   reply.status(201).send({ response });

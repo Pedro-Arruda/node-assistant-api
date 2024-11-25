@@ -22,6 +22,9 @@ export class GetUserNotionData {
       categoryDatabaseId: userGenreDatabases.find(
         (db) => db.type === "categories"
       )?.notion_id,
+      contentsDatabaseId: userGenreDatabases.find(
+        (db) => db.type === "contents"
+      )?.notion_id,
       notionAccessToken: userAccessToken.notion_access_token ?? "",
     };
   }

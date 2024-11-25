@@ -13,15 +13,17 @@ export class NotionService {
     });
   }
 
-  async createWatchListPage(data: CreateWatchListItemNotion) {
+  async createWatchListPage(params: CreateWatchListItemNotion) {
     try {
       const response = await this.notion.pages.create({
-        parent: { database_id: "148675fb5be081ebb7f0ccf02487aa75" },
+        parent: { database_id: params.databaseId },
         cover: {
-          external: { url: data.image },
+          external: { url: params.data.image },
         },
-        properties: await createWatchListItemProperties(data),
+        properties: await createWatchListItemProperties(params),
       });
+
+      console.log(response);
 
       return response;
     } catch (error) {
@@ -90,15 +92,18 @@ export class NotionService {
 }
 
 export interface CreateWatchListItemNotion {
-  title: string;
-  image: string;
-  duration: string | number;
-  vote_average: number;
-  streamings: string[];
-  genres: { id: string }[];
-  synopsis: string;
-  release_date: string;
-  categorie: string;
+  data: {
+    title: string;
+    image: string;
+    duration: string | number;
+    vote_average: number;
+    streamings: string[];
+    genres: { id: string }[];
+    synopsis: string;
+    release_date: string;
+    categorie: string;
+  };
+  databaseId: string;
 }
 
 export interface GetNotionAccessToken {

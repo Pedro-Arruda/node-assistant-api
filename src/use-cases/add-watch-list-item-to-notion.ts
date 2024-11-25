@@ -13,6 +13,7 @@ interface AddWatchListItemUseCaseRequest {
     categorie: string;
   };
   accessToken: string;
+  databaseId: string;
 }
 
 export class AddWatchListItemUseCase {
@@ -21,13 +22,15 @@ export class AddWatchListItemUseCase {
   async execute({
     data,
     accessToken,
+    databaseId,
   }: AddWatchListItemUseCaseRequest): Promise<any> {
     const notionService = new NotionService({
       accessToken,
     });
 
     const response = await notionService.createWatchListPage({
-      ...data,
+      data,
+      databaseId,
     });
 
     return response;
