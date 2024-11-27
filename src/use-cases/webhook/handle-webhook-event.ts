@@ -21,8 +21,7 @@ export class HandleWebhookEventUseCase {
 
     console.log("Redirect payload:", redirect);
     const response = await app.inject(redirect);
-    const teste = await response.json();
-    console.log("teste:", teste);
+    console.log("response:", response);
   }
 
   private handleMessageType(message: string): string {
