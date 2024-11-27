@@ -20,11 +20,11 @@ export const handleWebhook = async (
       select: { id: true },
     });
 
-    reply.type("text/xml").status(200).send(`
-        <Response>
-          <Message>Sua solicitação está sendo processada! Isso pode levar alguns segundos.</Message>
-        </Response>
-      `);
+    // reply.type("text/xml").status(200).send(`
+    //     <Response>
+    //       <Message>Sua solicitação está sendo processada! Isso pode levar alguns segundos.</Message>
+    //     </Response>
+    //   `);
 
     const handleWebhookEventUseCase = new HandleWebhookEventUseCase();
     const response = await handleWebhookEventUseCase
