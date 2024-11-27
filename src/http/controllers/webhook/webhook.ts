@@ -15,8 +15,11 @@ export const handleWebhook = async (
 
     const { Body, From } = addSerieBodySchema.parse(req.body);
 
+    console.log(From);
+    console.log(From.replace(/\D/g, ""));
+
     const user = await prisma.user.findFirstOrThrow({
-      where: { phone: From },
+      where: { phone: From.replace(/\D/g, "") },
       select: { id: true },
     });
 
