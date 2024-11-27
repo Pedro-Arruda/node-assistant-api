@@ -1,7 +1,7 @@
-import { FastifyRequest, FastifyReply } from "fastify";
+import { FastifyReply, FastifyRequest } from "fastify";
+import { HandleWebhookEventUseCase } from "../../../use-cases/webhook/handle-webhook-event";
 import { z } from "zod";
 import { prisma } from "../../../lib/prisma";
-import { HandleWebhookEventUseCase } from "../../../use-cases/webhook/handle-webhook-event";
 
 export const handleWebhook = async (
   req: FastifyRequest,
@@ -15,24 +15,33 @@ export const handleWebhook = async (
 
     const { Body, From } = addSerieBodySchema.parse(req.body);
 
-    console.log(From);
-    console.log(From.replace(/\D/g, ""));
-
     const user = await prisma.user.findFirstOrThrow({
       where: { phone: From.replace(/\D/g, "") },
       select: { id: true },
     });
 
+    reply.type("text/xml").status(200).send(`
+        <Response>
+          <Message>Sua solicitação está sendo processada! Isso pode levar alguns segundos.</Message>
+        </Response>
+      `);
+
     const handleWebhookEventUseCase = new HandleWebhookEventUseCase();
-
-    const result = await handleWebhookEventUseCase.execute({
-      message: Body,
-      userId: user.id,
-    });
-
-    reply.status(200).send({ success: true, data: result });
+    handleWebhookEventUseCase
+      .execute({
+        message: Body,
+        userId: user.id,
+      })
+      .catch((error) => {
+        console.error("Erro ao processar o evento do webhook:", error);
+      });
   } catch (error: any) {
-    console.error("Error handling webhook:", error);
-    reply.status(500).send({ success: false, message: error.message });
+    console.error("Erro ao lidar com webhook:", error);
+
+    reply.type("text/xml").status(200).send(`
+        <Response>
+          <Message>Ocorreu um erro ao processar sua solicitação. Por favor, tente novamente mais tarde.</Message>
+        </Response>
+      `);
   }
 };
