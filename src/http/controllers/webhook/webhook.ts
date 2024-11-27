@@ -20,14 +20,8 @@ export const handleWebhook = async (
       select: { id: true },
     });
 
-    // reply.type("text/xml").status(200).send(`
-    //     <Response>
-    //       <Message>Sua solicitação está sendo processada! Isso pode levar alguns segundos.</Message>
-    //     </Response>
-    //   `);
-
     const handleWebhookEventUseCase = new HandleWebhookEventUseCase();
-    const response = await handleWebhookEventUseCase
+    handleWebhookEventUseCase
       .execute({
         message: Body,
         userId: user.id,
@@ -36,7 +30,11 @@ export const handleWebhook = async (
         console.error("Erro ao processar o evento do webhook:", error);
       });
 
-    reply.send(response);
+    reply.type("text/xml").status(200).send(`
+        <Response>
+          <Message>Sua série está sendo inserida.</Message>
+        </Response>
+      `);
   } catch (error: any) {
     console.error("Erro ao lidar com webhook:", error);
 
