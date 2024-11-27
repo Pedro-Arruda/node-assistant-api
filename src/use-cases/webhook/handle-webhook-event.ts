@@ -21,7 +21,7 @@ export class HandleWebhookEventUseCase {
 
     console.log("Redirect payload:", redirect);
     const response = await app.inject(redirect);
-    console.log("response:", response);
+    console.log("Response:", response);
   }
 
   private handleMessageType(message: string): string {
@@ -66,14 +66,14 @@ export class HandleWebhookEventUseCase {
       case "series":
         return {
           method: "POST",
-          url: "/notion/series/add",
+          url: "https://notion-assistant-api.vercel.app/notion/series/add",
           payload: { title, userId },
         };
 
       case "movies":
         return {
           method: "POST",
-          url: "/notion/movies/add",
+          url: "https://notion-assistant-api.vercel.app/notion/movies/add",
           payload: { title, userId },
         };
 
