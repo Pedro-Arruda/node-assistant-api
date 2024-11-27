@@ -27,7 +27,7 @@ export const handleWebhook = async (
       `);
 
     const handleWebhookEventUseCase = new HandleWebhookEventUseCase();
-    handleWebhookEventUseCase
+    await handleWebhookEventUseCase
       .execute({
         message: Body,
         userId: user.id,
