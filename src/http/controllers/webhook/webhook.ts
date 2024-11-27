@@ -27,7 +27,7 @@ export const handleWebhook = async (
       `);
 
     const handleWebhookEventUseCase = new HandleWebhookEventUseCase();
-    await handleWebhookEventUseCase
+    const response = await handleWebhookEventUseCase
       .execute({
         message: Body,
         userId: user.id,
@@ -35,6 +35,8 @@ export const handleWebhook = async (
       .catch((error) => {
         console.error("Erro ao processar o evento do webhook:", error);
       });
+
+    reply.send(response);
   } catch (error: any) {
     console.error("Erro ao lidar com webhook:", error);
 
