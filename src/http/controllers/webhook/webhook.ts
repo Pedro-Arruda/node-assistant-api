@@ -1,7 +1,7 @@
 import { FastifyRequest, FastifyReply } from "fastify";
-import { HandleWebhookEventUseCase } from "../../../use-cases/handle-webhook-event";
 import { z } from "zod";
 import { prisma } from "../../../lib/prisma";
+import { HandleWebhookEventUseCase } from "../../../use-cases/webhook/handle-webhook-event";
 
 export const handleWebhook = async (
   req: FastifyRequest,

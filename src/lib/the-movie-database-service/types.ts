@@ -58,3 +58,7 @@ export interface ItemWatchProviders {
     };
   };
 }
+
+export interface GetItemById {
+  results: { id: string }[];
+}

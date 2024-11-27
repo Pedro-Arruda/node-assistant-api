@@ -1,4 +1,4 @@
-import { NotionService } from "../lib/notion";
+import { NotionService } from "../../lib/notion";
 
 interface AddWatchListItemUseCaseRequest {
   data: {
@@ -28,10 +28,7 @@ export class AddWatchListItemUseCase {
       accessToken,
     });
 
-    const response = await notionService.createWatchListPage({
-      data,
-      databaseId,
-    });
+    const response = await notionService.createWatchListPage(data, databaseId);
 
     return response;
   }

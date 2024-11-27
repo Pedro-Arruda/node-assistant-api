@@ -1,5 +1,5 @@
-import { HTTPMethods, InjectOptions } from "fastify";
-import { app } from "../app";
+import { InjectOptions } from "fastify";
+import { app } from "../../app";
 
 export class HandleWebhookEventUseCase {
   async execute(payload: { message: string; userId: string }) {

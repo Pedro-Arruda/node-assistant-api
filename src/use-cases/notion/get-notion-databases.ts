@@ -1,6 +1,6 @@
-import { NotionService } from "../lib/notion";
+import { NotionService } from "../../lib/notion";
 
-export class GetUserNotionDatabasesIdUseCase {
+export class GetNotionDatabasesUseCase {
   constructor() {}
 
   async execute(accessToken: string): Promise<any> {
@@ -8,7 +8,7 @@ export class GetUserNotionDatabasesIdUseCase {
       accessToken: accessToken,
     });
 
-    const databases = await notionService.getUserDatabases();
+    const databases = await notionService.getNotionDatabases();
 
     return databases;
   }

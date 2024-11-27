@@ -1,5 +1,5 @@
-import { MovieApiDatabaseService } from "../lib/the-movie-database-service";
-import { SerieDetails } from "../lib/the-movie-database-service/types";
+import { MovieApiDatabaseService } from "../../lib/the-movie-database-service";
+import { SerieDetails } from "../../lib/the-movie-database-service/types";
 
 interface GetSerieInfoUseCaseRequest {
   title: string;

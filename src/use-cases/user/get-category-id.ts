@@ -1,4 +1,4 @@
-import { NotionService } from "../lib/notion";
+import { NotionService } from "../../lib/notion";
 
 interface GetCategoryIdUseCaseProps {
   categoryDatabaseId: string;
@@ -14,7 +14,7 @@ export class GetCategoryIdUseCase {
   async execute(accessToken: string) {
     const notionService = new NotionService({ accessToken });
 
-    const { results } = await notionService.getDatabasesPages(
+    const { results } = await notionService.getDatabasePages(
       this.categoryDatabaseId
     );
 

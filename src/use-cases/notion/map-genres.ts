@@ -1,20 +1,20 @@
-import { NotionService } from "../lib/notion";
+import { NotionService } from "../../lib/notion";
 
-interface GetGenreDatabaseIdUseCaseProps {
+interface MapGenreUseCaseProps {
   genresDatabaseId: string;
 }
 
-export class GetGenreDatabaseIdUseCase {
+export class MapGenreUseCase {
   private genresDatabaseId: string;
 
-  constructor({ genresDatabaseId }: GetGenreDatabaseIdUseCaseProps) {
+  constructor({ genresDatabaseId }: MapGenreUseCaseProps) {
     this.genresDatabaseId = genresDatabaseId;
   }
 
   async execute(accessToken: string): Promise<Record<string, string>> {
     const notionService = new NotionService({ accessToken });
 
-    const genres = await notionService.getDatabasesPages(this.genresDatabaseId);
+    const genres = await notionService.getDatabasePages(this.genresDatabaseId);
 
     const genreMap: Record<string, string> = {};
     genres.results.forEach((page: any) => {

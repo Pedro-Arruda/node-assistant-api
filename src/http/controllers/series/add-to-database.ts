@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { FastifyReply, FastifyRequest } from "fastify";
-import { AddSerieToNotionUseCase } from "../../../use-cases/add-serie-to-notion";
+import { AddSerieToNotionUseCase } from "../../../use-cases/series/add-serie-to-notion";
 
 export const addToDatabase = async (
   req: FastifyRequest,

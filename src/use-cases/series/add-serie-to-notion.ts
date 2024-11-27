@@ -1,9 +1,10 @@
-import { MovieApiDatabaseService } from "../lib/the-movie-database-service";
-import { AddWatchListItemUseCase } from "./add-watch-list-item-to-notion";
-import { GetCategoryIdUseCase } from "./get-category-id";
-import { GetGenreDatabaseIdUseCase } from "./get-genre-database-id";
+import { MovieApiDatabaseService } from "../../lib/the-movie-database-service";
+import { SerieDetails } from "../../lib/the-movie-database-service/types";
+import { GetCategoryIdUseCase } from "../user/get-category-id";
 import { GetSerieInfoUseCase } from "./get-serie-infos";
-import { GetUserNotionData } from "./get-user-notion-data";
+import { GetUserDataUseCase } from "../user/get-user-data";
+import { MapGenreUseCase } from "../notion/map-genres";
+import { AddWatchListItemUseCase } from "../notion/add-watch-list-item-to-notion";
 
 export class AddSerieToNotionUseCase {
   async execute({ title, userId }: { title: string; userId: string }) {
@@ -33,12 +34,12 @@ export class AddSerieToNotionUseCase {
   }
 
   private async getUserNotionData(userId: string) {
-    const getUserNotionData = new GetUserNotionData();
+    const getUserNotionData = new GetUserDataUseCase();
     return await getUserNotionData.execute(userId);
   }
 
   private async getGenresMappedToNotion(genres: string[], userNotionData: any) {
-    const getGenreDatabaseIdUseCase = new GetGenreDatabaseIdUseCase({
+    const getGenreDatabaseIdUseCase = new MapGenreUseCase({
       genresDatabaseId: userNotionData.genreDatabase.notion_id,
     });
     const notionGenres = await getGenreDatabaseIdUseCase.execute(
@@ -72,7 +73,11 @@ export class AddSerieToNotionUseCase {
     genres,
     categoryId,
   }: {
-    serieInfos: any;
+    serieInfos: {
+      details: SerieDetails;
+      streamings: string[];
+      genres: string[];
+    };
     userNotionData: any;
     genres: any[];
     categoryId: string;

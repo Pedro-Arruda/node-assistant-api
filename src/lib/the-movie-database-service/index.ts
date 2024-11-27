@@ -4,12 +4,13 @@ import {
   MovieDetails,
   ItemWatchProviders,
   SerieDetails,
+  GetItemById,
 } from "./types";
 
 export class MovieApiDatabaseService implements IMovieDatabaseService {
   constructor() {}
 
-  async getMovieIdByTitle(title: string) {
+  async getMovieIdByTitle(title: string): Promise<{ id: string }> {
     const titleWithoutSpaces = title.replaceAll(" ", "%");
 
     try {
@@ -17,7 +18,7 @@ export class MovieApiDatabaseService implements IMovieDatabaseService {
         endpoint: `/search/movie?query=${titleWithoutSpaces}`,
       });
 
-      const data = await response.json();
+      const data: GetItemById = await response.json();
 
       return { id: data.results[0].id };
     } catch (error) {
@@ -32,7 +33,7 @@ export class MovieApiDatabaseService implements IMovieDatabaseService {
         endpoint: `/movie/${id}?language=pt-br`,
       });
 
-      const data = await response.json();
+      const data: MovieDetails = await response.json();
       return { details: data };
     } catch (error) {
       console.error("Error getting the details of the movie:", error);
@@ -48,7 +49,7 @@ export class MovieApiDatabaseService implements IMovieDatabaseService {
         endpoint: `/movie/${id}/watch/providers`,
       });
 
-      const data = await response.json();
+      const data: ItemWatchProviders = await response.json();
 
       return { streamings: data };
     } catch (error) {
@@ -57,13 +58,13 @@ export class MovieApiDatabaseService implements IMovieDatabaseService {
     }
   }
 
-  async getSerieIdByTitle(title: string) {
+  async getSerieIdByTitle(title: string): Promise<{ id: string }> {
     try {
       const response = await fetchItemApi({
         endpoint: `/search/tv?query=${title}&language=pt-br`,
       });
 
-      const data = await response.json();
+      const data: GetItemById = await response.json();
 
       return { id: data.results[0].id };
     } catch (error) {

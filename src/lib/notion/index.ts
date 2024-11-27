@@ -1,6 +1,11 @@
 import { Client } from "@notionhq/client";
 import { createWatchListItemProperties } from "./create-watch-list-item-properties";
 import { env } from "../../env";
+import { CreateWatchListItemNotion, GetNotionAccessToken } from "./types";
+import {
+  CreatePageResponse,
+  PageObjectResponse,
+} from "@notionhq/client/build/src/api-endpoints";
 
 export class NotionService {
   private notion: Client;
@@ -13,14 +18,17 @@ export class NotionService {
     });
   }
 
-  async createWatchListPage(params: CreateWatchListItemNotion) {
+  async createWatchListPage(
+    watchListItem: CreateWatchListItemNotion,
+    databaseId: string
+  ): Promise<CreatePageResponse> {
     try {
       const response = await this.notion.pages.create({
-        parent: { database_id: params.databaseId },
+        parent: { database_id: databaseId },
         cover: {
-          external: { url: params.data.image },
+          external: { url: watchListItem.image },
         },
-        properties: await createWatchListItemProperties(params),
+        properties: await createWatchListItemProperties(watchListItem),
       });
 
       return response;
@@ -30,7 +38,7 @@ export class NotionService {
     }
   }
 
-  async getAccessToken({ code }: GetNotionAccessToken) {
+  async getAccessToken(code: string): Promise<GetNotionAccessToken> {
     try {
       const response = await fetch("https://api.notion.com/v1/oauth/token", {
         method: "POST",
@@ -48,38 +56,34 @@ export class NotionService {
         },
       });
 
-      const data: {
-        access_token: string;
-        owner: {
-          user: {
-            person: {
-              email: string;
-            };
-            name: string;
-          };
-        };
-      } = await response.json();
+      const data: GetNotionAccessToken = await response.json();
 
       return data;
     } catch (error) {
       console.error(error);
-      throw new Error("Erro ao salvar dados no Notion");
+      throw new Error("Erro ao pegar access token do Notion");
     }
   }
 
-  async getUserDatabases() {
+  async getNotionDatabases(): Promise<{
+    databases: { type: string; id: string }[];
+  }> {
     try {
       const response = await this.notion.search({
         filter: { value: "database", property: "object" },
-        query: "Watchlist",
+        query: "Watchlist - ",
       });
 
-      const databases = response.results.map((database: any) => ({
-        title: database.title[0].plain_text
+      const databases = response.results.map((database: any) => {
+        const type = database.title[0].plain_text
           .replace("Watchlist - ", "")
-          .toLowerCase(),
-        id: database.id,
-      }));
+          .toLowerCase();
+
+        return {
+          type,
+          id: database.id,
+        };
+      });
 
       return {
         databases,
@@ -90,30 +94,11 @@ export class NotionService {
     }
   }
 
-  async getDatabasesPages(databaseId: string) {
+  async getDatabasePages(databaseId: string) {
     const response = await this.notion.databases.query({
       database_id: databaseId,
     });
 
     return response;
   }
-}
-
-export interface CreateWatchListItemNotion {
-  data: {
-    title: string;
-    image: string;
-    duration: string | number;
-    vote_average: number;
-    streamings: string[];
-    genres: { id: string }[];
-    synopsis: string;
-    release_date: string;
-    categorie: string;
-  };
-  databaseId: string;
-}
-
-export interface GetNotionAccessToken {
-  code: string;
 }

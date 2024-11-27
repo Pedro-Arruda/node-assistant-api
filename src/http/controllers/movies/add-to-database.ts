@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { FastifyReply, FastifyRequest } from "fastify";
-import { AddMovieToNotionUseCase } from "../../../use-cases/add-movie-to-notion";
+import { AddMovieToNotionUseCase } from "../../../use-cases/movies/add-movie-to-notion";
 
 export const addToDatabase = async (
   req: FastifyRequest,

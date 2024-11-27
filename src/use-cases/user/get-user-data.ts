@@ -1,6 +1,6 @@
-import { prisma } from "../lib/prisma";
+import { prisma } from "../../lib/prisma";
 
-export class GetUserNotionData {
+export class GetUserDataUseCase {
   async execute(userId: string) {
     const userGenreDatabases = await prisma.notionDatabase.findMany({
       where: { user_id: userId },

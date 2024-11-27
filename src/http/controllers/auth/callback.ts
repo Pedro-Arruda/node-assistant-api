@@ -1,8 +1,8 @@
 import { z } from "zod";
 import { FastifyReply, FastifyRequest } from "fastify";
-import { GetNotionAccessTokenUseCase } from "../../../use-cases/get-notion-access-token";
 import { prisma } from "../../../lib/prisma";
-import { GetUserNotionDatabasesIdUseCase } from "../../../use-cases/get-user-notion-databases";
+import { GetNotionAccessTokenUseCase } from "../../../use-cases/notion/get-notion-access-token";
+import { GetNotionDatabasesUseCase } from "../../../use-cases/notion/get-notion-databases";
 
 export const callback = async (req: FastifyRequest, reply: FastifyReply) => {
   const addMovieQuerySchema = z.object({
@@ -25,7 +25,7 @@ export const callback = async (req: FastifyRequest, reply: FastifyReply) => {
     },
   });
 
-  const getUserDatabasesUseCase = new GetUserNotionDatabasesIdUseCase();
+  const getUserDatabasesUseCase = new GetNotionDatabasesUseCase();
 
   const { databases } = await getUserDatabasesUseCase.execute(access_token);
 
