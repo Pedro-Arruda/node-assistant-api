@@ -19,7 +19,10 @@ export class HandleWebhookEventUseCase {
       throw new Error(`Unhandled webhook event type: ${messageType}`);
     }
 
-    await app.inject(redirect);
+    console.log("Redirect payload:", redirect);
+    const response = await app.inject(redirect);
+    const teste = await response.json();
+    console.log("teste:", teste);
   }
 
   private handleMessageType(message: string): string {
@@ -64,14 +67,14 @@ export class HandleWebhookEventUseCase {
       case "series":
         return {
           method: "POST",
-          url: "https://notion-assistant-api.vercel.app/notion/series/add",
+          url: "/notion/series/add",
           payload: { title, userId },
         };
 
       case "movies":
         return {
           method: "POST",
-          url: "https://notion-assistant-api.vercel.app/notion/movies/add",
+          url: "/notion/movies/add",
           payload: { title, userId },
         };
 

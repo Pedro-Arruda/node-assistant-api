@@ -28,8 +28,6 @@ export class NotionService {
         properties: await createWatchListItemProperties(watchListItem),
       });
 
-      console.log("response", response);
-
       return response;
     } catch (error) {
       console.error(error);
