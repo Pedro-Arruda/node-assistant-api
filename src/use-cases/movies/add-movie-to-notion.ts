@@ -1,4 +1,5 @@
 import { MovieApiDatabaseService } from "../../lib/the-movie-database-service";
+import { PrismaUsersRepository } from "../../repositories/prisma/prisma-user";
 import { AddWatchListItemUseCase } from "../notion/add-watch-list-item-to-notion";
 import { MapGenreUseCase } from "../notion/map-genres";
 import { GetCategoryIdUseCase } from "../user/get-category-id";
@@ -33,7 +34,8 @@ export class AddMovieToNotionUseCase {
   }
 
   private async getUserNotionData(userId: string) {
-    const getUserNotionData = new GetUserDataUseCase();
+    const usersRepository = new PrismaUsersRepository();
+    const getUserNotionData = new GetUserDataUseCase(usersRepository);
     return await getUserNotionData.execute(userId);
   }
 

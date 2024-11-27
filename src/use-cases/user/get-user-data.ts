@@ -1,34 +1,23 @@
-import { prisma } from "../../lib/prisma";
+import { UserRepository } from "../../repositories/user";
 
 export class GetUserDataUseCase {
+  constructor(private usersRepository: UserRepository) {}
+
   async execute(userId: string) {
-    const userGenreDatabases = await prisma.notionDatabase.findMany({
-      where: { user_id: userId },
-      select: { notion_id: true, type: true },
-    });
+    const user = await this.usersRepository.findById(userId);
+    const userDatabases = await this.usersRepository.getDatabases(userId);
 
-    const userAccessToken = await prisma.user.findFirst({
-      where: { id: userId },
-      select: { notion_access_token: true },
-    });
-
-    if (
-      !userGenreDatabases ||
-      !userAccessToken ||
-      !userAccessToken.notion_access_token
-    ) {
+    if (!user || !user.notion_access_token) {
       throw new Error("Dados do usuário não encontrados");
     }
 
-    const genreDatabase = userGenreDatabases.find((db) => db.type === "genres");
+    const genreDatabase = userDatabases.find((db) => db.type === "genres");
 
-    const categoryDatabase = userGenreDatabases.find(
+    const categoryDatabase = userDatabases.find(
       (db) => db.type === "categories"
     );
 
-    const contentsDatabase = userGenreDatabases.find(
-      (db) => db.type === "contents"
-    );
+    const contentsDatabase = userDatabases.find((db) => db.type === "contents");
 
     if (!genreDatabase || !categoryDatabase || !contentsDatabase) {
       throw new Error("Databases não encontrados");
@@ -38,7 +27,7 @@ export class GetUserDataUseCase {
       genreDatabase,
       categoryDatabase,
       contentsDatabase,
-      accessToken: userAccessToken.notion_access_token,
+      accessToken: user.notion_access_token,
     };
   }
 }

@@ -1,10 +1,10 @@
-import { CreateWatchListItemNotion } from ".";
 import { convertMinutesToTimeString } from "../../utils/convertMinutesToTimeString";
 import { dateFormat } from "../../utils/dateFormat";
+import { CreateWatchListItemNotion } from "./types";
 
-export const createWatchListItemProperties = async ({
-  data,
-}: CreateWatchListItemNotion) => {
+export const createWatchListItemProperties = async (
+  data: CreateWatchListItemNotion
+) => {
   const {
     categorie,
     duration,

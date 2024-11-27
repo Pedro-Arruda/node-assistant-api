@@ -5,6 +5,7 @@ import { GetSerieInfoUseCase } from "./get-serie-infos";
 import { GetUserDataUseCase } from "../user/get-user-data";
 import { MapGenreUseCase } from "../notion/map-genres";
 import { AddWatchListItemUseCase } from "../notion/add-watch-list-item-to-notion";
+import { PrismaUsersRepository } from "../../repositories/prisma/prisma-user";
 
 export class AddSerieToNotionUseCase {
   async execute({ title, userId }: { title: string; userId: string }) {
@@ -34,7 +35,8 @@ export class AddSerieToNotionUseCase {
   }
 
   private async getUserNotionData(userId: string) {
-    const getUserNotionData = new GetUserDataUseCase();
+    const usersRepository = new PrismaUsersRepository();
+    const getUserNotionData = new GetUserDataUseCase(usersRepository);
     return await getUserNotionData.execute(userId);
   }
 

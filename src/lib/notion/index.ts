@@ -2,10 +2,7 @@ import { Client } from "@notionhq/client";
 import { createWatchListItemProperties } from "./create-watch-list-item-properties";
 import { env } from "../../env";
 import { CreateWatchListItemNotion, GetNotionAccessToken } from "./types";
-import {
-  CreatePageResponse,
-  PageObjectResponse,
-} from "@notionhq/client/build/src/api-endpoints";
+import { CreatePageResponse } from "@notionhq/client/build/src/api-endpoints";
 
 export class NotionService {
   private notion: Client;
