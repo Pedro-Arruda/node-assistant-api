@@ -15,14 +15,10 @@ export const handleWebhook = async (
 
     const { Body, From } = addSerieBodySchema.parse(req.body);
 
-    console.log("From", From);
-
     const user = await prisma.user.findFirstOrThrow({
       where: { phone: From },
       select: { id: true },
     });
-
-    console.log("user", user);
 
     const handleWebhookEventUseCase = new HandleWebhookEventUseCase();
 

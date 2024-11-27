@@ -54,10 +54,13 @@ export class NotionService {
       });
 
       const data: GetNotionAccessToken = await response.json();
+      if (!response.ok) {
+        console.error(data);
+        throw new Error("Erro ao pegar access token do Notion");
+      }
 
       return data;
     } catch (error) {
-      console.error(error);
       throw new Error("Erro ao pegar access token do Notion");
     }
   }

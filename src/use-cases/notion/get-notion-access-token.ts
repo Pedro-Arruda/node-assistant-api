@@ -12,8 +12,8 @@ export class GetNotionAccessTokenUseCase {
       accessToken: "",
     });
 
-    const { access_token, owner } = await notionService.getAccessToken(code);
+    const response = await notionService.getAccessToken(code);
 
-    return { access_token, owner };
+    return response;
   }
 }
