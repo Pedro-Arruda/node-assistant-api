@@ -18,6 +18,8 @@ export const callback = async (req: FastifyRequest, reply: FastifyReply) => {
       code,
     });
 
+    console.log("response", response);
+
     const user = await prisma.user.create({
       data: {
         email: response.owner.user.person.email,
@@ -31,6 +33,8 @@ export const callback = async (req: FastifyRequest, reply: FastifyReply) => {
     const { databases } = await getUserDatabasesUseCase.execute(
       response.access_token
     );
+
+    console.log("databases", databases);
 
     await prisma.notionDatabase.createMany({
       data: [
