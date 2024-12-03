@@ -3,6 +3,7 @@ import { createWatchListItemProperties } from "./create-watch-list-item-properti
 import { env } from "../../env";
 import { CreateWatchListItemNotion, GetNotionAccessToken } from "./types";
 import { CreatePageResponse } from "@notionhq/client/build/src/api-endpoints";
+import { retry } from "../../utils/retry";
 
 export class NotionService {
   private notion: Client;
@@ -69,30 +70,33 @@ export class NotionService {
   async getNotionDatabases(): Promise<{
     databases: { type: string; id: string }[];
   }> {
-    try {
-      const response = await this.notion.search({
-        filter: { value: "database", property: "object" },
-        query: "Watchlist - ",
-      });
+    return await retry(
+      async () => {
+        const response = await this.notion.search({
+          filter: { value: "database", property: "object" },
+          query: "Watchlist - ",
+        });
 
-      const databases = response.results.map((database: any) => {
-        const type = database.title[0].plain_text
-          .replace("Watchlist - ", "")
-          .toLowerCase();
+        if (!response.results || response.results.length === 0) {
+          throw new Error("Databases not found yet");
+        }
 
-        return {
-          type,
-          id: database.id,
-        };
-      });
+        const databases = response.results.map((database: any) => {
+          const type = database.title[0].plain_text
+            .replace("Watchlist - ", "")
+            .toLowerCase();
 
-      return {
-        databases,
-      };
-    } catch (error) {
-      console.error(error);
-      throw new Error("Erro ao salvar dados no Notion");
-    }
+          return {
+            type,
+            id: database.id,
+          };
+        });
+
+        return { databases };
+      },
+      10,
+      3000
+    );
   }
 
   async getDatabasePages(databaseId: string) {
