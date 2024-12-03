@@ -94,7 +94,7 @@ export class NotionService {
 
         return { databases };
       },
-      10,
+      3,
       3000
     );
   }
