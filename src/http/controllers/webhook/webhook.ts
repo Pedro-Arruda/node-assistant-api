@@ -91,5 +91,8 @@ export const handleWebhook = async (req: any, reply: FastifyReply) => {
     },
     body: JSON.stringify(messagePayload),
   });
+
+  console.log(response);
+
   reply.status(200).send("EVENT_RECEIVED");
 };
