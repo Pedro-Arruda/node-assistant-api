@@ -6,7 +6,7 @@ import { prisma } from "../../../lib/prisma";
 export const handleWebhook = async (req: any, reply: FastifyReply) => {
   console.log("WEBHOOK");
 
-  console.log(req);
+  console.log(req.body);
 
   // const url = `https://graph.facebook.com/v21.0/485600487973744/messages`;
 
