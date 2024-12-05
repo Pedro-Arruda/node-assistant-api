@@ -6,30 +6,30 @@ import { prisma } from "../../../lib/prisma";
 export const handleWebhook = async (req: any, reply: FastifyReply) => {
   console.log("WEBHOOK");
 
-  const url = `https://graph.facebook.com/v21.0/485600487973744/messages`;
+  console.log(req);
 
-  const data = {
-    messaging_product: "whatsapp",
-    to: "5514998861503",
-    text: { body: "TESTEEEEE" },
-  };
+  // const url = `https://graph.facebook.com/v21.0/485600487973744/messages`;
 
-  const response = await fetch(url, {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer EAAIeVdZAIBC4BO5R4ALgQ32OxWHgaEYkZC0gdz7Wy7S9TMAkOhg8TimKlAN8ZB8ST92Olj6t6IArCvISQYg0FKr7Liu7VOBjnwPbfWEjnJokv0XmTqUvI0Ngd73gdSjXSyoTC9f5Sxy0iwH4llk2iI0ywgzzWqswjH43jK14TAycZCVwmVXraeV1Q0MNWfZAuPOAgFNDT9koSbLOy1SUedj9oZAKMZD`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
-  })
-    .then((response) => {
-      console.log("Mensagem enviada com sucesso:", response);
-    })
-    .catch((error) => {
-      console.error("Erro ao enviar mensagem:", error.response.data);
-    });
+  // const data = {
+  //   messaging_product: "whatsapp",
+  //   to: "5514998861503",
+  //   text: { body: "TESTEEEEE" },
+  // };
 
-  console.log(response);
+  // const response = await fetch(url, {
+  //   method: "POST",
+  //   headers: {
+  //     Authorization: `Bearer EAAIeVdZAIBC4BO5R4ALgQ32OxWHgaEYkZC0gdz7Wy7S9TMAkOhg8TimKlAN8ZB8ST92Olj6t6IArCvISQYg0FKr7Liu7VOBjnwPbfWEjnJokv0XmTqUvI0Ngd73gdSjXSyoTC9f5Sxy0iwH4llk2iI0ywgzzWqswjH43jK14TAycZCVwmVXraeV1Q0MNWfZAuPOAgFNDT9koSbLOy1SUedj9oZAKMZD`,
+  //     "Content-Type": "application/json",
+  //   },
+  //   body: JSON.stringify(data),
+  // })
+  //   .then((response) => {
+  //     console.log("Mensagem enviada com sucesso:", response);
+  //   })
+  //   .catch((error) => {
+  //     console.error("Erro ao enviar mensagem:", error.response.data);
+  //   });
 
   // try {
   //   const addSerieBodySchema = z.object({
