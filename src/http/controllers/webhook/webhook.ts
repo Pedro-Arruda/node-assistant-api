@@ -7,41 +7,44 @@ export const handleWebhook = async (
   req: FastifyRequest,
   reply: FastifyReply
 ) => {
-  try {
-    const addSerieBodySchema = z.object({
-      Body: z.string(),
-      From: z.string(),
-    });
+  const body = req.query;
+  console.log("body", body);
 
-    const { Body, From } = addSerieBodySchema.parse(req.body);
+  // try {
+  //   const addSerieBodySchema = z.object({
+  //     Body: z.string(),
+  //     From: z.string(),
+  //   });
 
-    const user = await prisma.user.findFirstOrThrow({
-      where: { phone: From.replace(/\D/g, "") },
-      select: { id: true },
-    });
+  //   const { Body, From } = addSerieBodySchema.parse(req.body);
 
-    const handleWebhookEventUseCase = new HandleWebhookEventUseCase();
-    await handleWebhookEventUseCase
-      .execute({
-        message: Body,
-        userId: user.id,
-      })
-      .catch((error) => {
-        console.error("Erro ao processar o evento do webhook:", error);
-      });
+  //   const user = await prisma.user.findFirstOrThrow({
+  //     where: { phone: From.replace(/\D/g, "") },
+  //     select: { id: true },
+  //   });
 
-    reply.type("text/xml").status(200).send(`
-        <Response>
-          <Message>Sua série está sendo inserida.</Message>
-        </Response>
-      `);
-  } catch (error: any) {
-    console.error("Erro ao lidar com webhook:", error);
+  //   const handleWebhookEventUseCase = new HandleWebhookEventUseCase();
+  //   await handleWebhookEventUseCase
+  //     .execute({
+  //       message: Body,
+  //       userId: user.id,
+  //     })
+  //     .catch((error) => {
+  //       console.error("Erro ao processar o evento do webhook:", error);
+  //     });
 
-    reply.type("text/xml").status(200).send(`
-        <Response>
-          <Message>Ocorreu um erro ao processar sua solicitação. Por favor, tente novamente mais tarde.</Message>
-        </Response>
-      `);
-  }
+  //   reply.type("text/xml").status(200).send(`
+  //       <Response>
+  //         <Message>Sua série está sendo inserida.</Message>
+  //       </Response>
+  //     `);
+  // } catch (error: any) {
+  //   console.error("Erro ao lidar com webhook:", error);
+
+  //   reply.type("text/xml").status(200).send(`
+  //       <Response>
+  //         <Message>Ocorreu um erro ao processar sua solicitação. Por favor, tente novamente mais tarde.</Message>
+  //       </Response>
+  //     `);
+  // }
 };
