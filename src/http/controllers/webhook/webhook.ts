@@ -6,12 +6,11 @@ import { prisma } from "../../../lib/prisma";
 export const handleWebhook = async (req: any, reply: FastifyReply) => {
   console.log("WEBHOOK");
 
-  const sender = req.body.entry[0].changes[0].value.messages[0].from;
   const url = `https://graph.facebook.com/v21.0/485600487973744/messages`;
 
   const data = {
     messaging_product: "whatsapp",
-    to: sender,
+    to: "5514998861503",
     text: { body: "TESTEEEEE" },
   };
 
