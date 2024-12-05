@@ -3,10 +3,42 @@ import { HandleWebhookEventUseCase } from "../../../use-cases/webhook/handle-web
 import { z } from "zod";
 import { prisma } from "../../../lib/prisma";
 
+async function sendMessage(to: number, message: string) {
+  const url = `https://graph.facebook.com/v21.0/485600487973744/messages`;
+
+  const data = {
+    messaging_product: "whatsapp",
+    to,
+    text: { body: message },
+  };
+
+  const response = await fetch(url, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer EAAIeVdZAIBC4BO5R4ALgQ32OxWHgaEYkZC0gdz7Wy7S9TMAkOhg8TimKlAN8ZB8ST92Olj6t6IArCvISQYg0FKr7Liu7VOBjnwPbfWEjnJokv0XmTqUvI0Ngd73gdSjXSyoTC9f5Sxy0iwH4llk2iI0ywgzzWqswjH43jK14TAycZCVwmVXraeV1Q0MNWfZAuPOAgFNDT9koSbLOy1SUedj9oZAKMZD`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+
+  if (response.ok) {
+    console.log("Mensagem enviada com sucesso:", await response.json());
+  } else {
+    console.error("Erro ao enviar mensagem:", await response.text());
+  }
+}
+
 export const handleWebhook = async (req: any, reply: FastifyReply) => {
   console.log("WEBHOOK");
 
-  console.log(req.body);
+  const sender = req.body.entry[0].changes[0].value.messages[0].from;
+
+  const messageText = req.body.entry[0].changes[0].value.messages[0].text.body;
+
+  await sendMessage(
+    sender,
+    "Obrigado pela sua mensagem! Estamos processando sua solicitação."
+  );
 
   // const url = `https://graph.facebook.com/v21.0/485600487973744/messages`;
 
