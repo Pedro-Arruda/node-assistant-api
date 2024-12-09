@@ -7,7 +7,7 @@ export class WhatsappService {
     this.accessToken = accessToken;
   }
 
-  async sendNotionCategoriesButton(to: string) {
+  async sendNotionCategoriesButtons(to: string) {
     const url = `https://graph.facebook.com/v21.0/485600487973744/messages`;
     const messageTemplate = makeButtonTemplate(to);
 

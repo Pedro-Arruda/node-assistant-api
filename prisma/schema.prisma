@@ -8,26 +8,16 @@ datasource db {
 }
 
 model User {
-  id                  String              @id @default(uuid())
+  id                  String           @id @default(uuid())
   name                String?
   phone               String?
-  email               String              @unique
-  created_at          DateTime            @default(now())
+  email               String           @unique
+  created_at          DateTime         @default(now())
   notion_access_token String?
-  notion_pages_genres NotionPagesGenres[]
   notion_databases    NotionDatabase[]
+  UserMessages        UserMessages[]
 
   @@map("users")
-}
-
-model NotionPagesGenres {
-  id      String @id @default(uuid())
-  page_id String
-  genre   String
-  user    User   @relation(fields: [user_id], references: [id])
-  user_id String
-
-  @@map("notion_pages_genres")
 }
 
 model NotionDatabase {
@@ -39,4 +29,14 @@ model NotionDatabase {
   created_at DateTime @default(now())
 
   @@map("notion_databases")
+}
+
+model UserMessages {
+  id         String   @id @default(uuid())
+  user       User     @relation(fields: [user_id], references: [id])
+  user_id    String
+  message    String
+  created_at DateTime @default(now())
+
+  @@map("user_messages")
 }

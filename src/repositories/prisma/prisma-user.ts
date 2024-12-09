@@ -1,4 +1,4 @@
-import { NotionDatabase, Prisma } from "@prisma/client";
+import { NotionDatabase, Prisma, UserMessages } from "@prisma/client";
 import { UserRepository } from "../user";
 import { prisma } from "../../lib/prisma";
 
@@ -27,5 +27,20 @@ export class PrismaUsersRepository implements UserRepository {
     });
 
     return databases;
+  }
+
+  async getLastMessage(userId: string) {
+    const message = await prisma.userMessages.findFirstOrThrow({
+      where: { user_id: userId },
+      orderBy: {
+        created_at: "desc",
+      },
+    });
+
+    return message;
+  }
+
+  async deleteMessage(messageId: string) {
+    await prisma.userMessages.delete({ where: { id: messageId } });
   }
 }
