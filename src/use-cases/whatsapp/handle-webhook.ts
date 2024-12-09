@@ -13,9 +13,12 @@ export class HandleWebhookEventUseCase {
   async execute(messageBody: any) {
     const message = messageBody.entry[0].changes[0].value.messages[0];
     const sender = messageBody.entry[0].changes[0].value.messages[0].from;
+
     const messageText = message.text.body;
 
     const user = await this.usersRepository.findByPhone(sender);
+
+    console.log("user", user);
 
     if (!user) {
       throw new Error("User not found.");
