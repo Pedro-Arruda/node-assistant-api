@@ -16,8 +16,6 @@ export class HandleWebhookEventUseCase {
     const message = messageBody.entry[0].changes[0].value.messages[0];
     const sender = messageBody.entry[0].changes[0].value.messages[0].from;
 
-    const messageText = message.text.body;
-
     const user = await this.usersRepository.findByPhone(sender);
 
     if (!user) {
@@ -39,7 +37,7 @@ export class HandleWebhookEventUseCase {
         const addSerieToNotionUseCase = new AddSerieToNotionUseCase();
 
         await addSerieToNotionUseCase.execute({
-          title: messageText,
+          title: userLastMessage.message,
           userId: user.id,
         });
       }
@@ -51,6 +49,8 @@ export class HandleWebhookEventUseCase {
 
       await this.userMessagesRepository.deleteMessage(userLastMessage.id);
     } else {
+      const messageText = message.text.body;
+
       await this.userMessagesRepository.save({
         message: messageText,
         user_id: user.id,
