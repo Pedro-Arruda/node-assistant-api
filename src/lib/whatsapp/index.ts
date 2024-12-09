@@ -29,7 +29,7 @@ export class WhatsappService {
     return data;
   }
 
-  async sendMessage(to: number, message: string) {
+  async sendMessage(to: string, message: string) {
     const url = `https://graph.facebook.com/v21.0/485600487973744/messages`;
 
     const messageData = {
