@@ -6,6 +6,8 @@ import { PrismaUsersRepository } from "../../../repositories/prisma/prisma-user"
 import { PrismaUsersMessageRepository } from "../../../repositories/prisma/prisma-user-messages";
 
 export const handleWebhook = async (req: any, reply: FastifyReply) => {
+  console.log("req.body", req.body);
+
   const whatsappService = new WhatsappService({
     accessToken: env.WHATSAPP_ACCESS_TOKEN,
   });
