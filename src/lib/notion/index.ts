@@ -1,9 +1,14 @@
 import { Client } from "@notionhq/client";
 import { createWatchListItemProperties } from "./create-watch-list-item-properties";
 import { env } from "../../env";
-import { CreateWatchListItemNotion, GetNotionAccessToken } from "./types";
+import {
+  CreateTaskNotion,
+  CreateWatchListItemNotion,
+  GetNotionAccessToken,
+} from "./types";
 import { CreatePageResponse } from "@notionhq/client/build/src/api-endpoints";
 import { retry } from "../../utils/retry";
+import { createTaskItemProperties } from "./create-task-item-properties";
 
 export class NotionService {
   private notion: Client;
@@ -27,6 +32,23 @@ export class NotionService {
           external: { url: watchListItem.image },
         },
         properties: await createWatchListItemProperties(watchListItem),
+      });
+
+      return response;
+    } catch (error) {
+      console.error(error);
+      throw new Error("Erro ao salvar dados no Notion");
+    }
+  }
+
+  async createTaskPage(
+    task: CreateTaskNotion,
+    databaseId: string
+  ): Promise<CreatePageResponse> {
+    try {
+      const response = await this.notion.pages.create({
+        parent: { database_id: databaseId },
+        properties: await createTaskItemProperties(task),
       });
 
       return response;

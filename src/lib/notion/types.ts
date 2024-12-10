@@ -10,6 +10,10 @@ export interface CreateWatchListItemNotion {
   categorie: string;
 }
 
+export interface CreateTaskNotion {
+  content: string;
+}
+
 export interface GetNotionAccessToken {
   access_token: string;
   owner: {

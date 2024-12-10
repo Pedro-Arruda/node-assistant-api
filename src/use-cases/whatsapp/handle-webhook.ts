@@ -4,6 +4,7 @@ import { UserMessagesRepository } from "../../repositories/messages";
 import { UserRepository } from "../../repositories/user";
 import { AddSerieToNotionUseCase } from "../series/add-serie-to-notion";
 import { AddMovieToNotionUseCase } from "../movies/add-movie-to-notion";
+import { AddTaskToNotionUseCase } from "../tasks/add-task-to-notion";
 
 export class HandleWebhookEventUseCase {
   constructor(
@@ -57,6 +58,14 @@ export class HandleWebhookEventUseCase {
         const addMovieToNotionUseCase = new AddMovieToNotionUseCase();
         await addMovieToNotionUseCase.execute({
           title: userLastMessage.message,
+          userId: user.id,
+        });
+        break;
+
+      case "task":
+        const addTaskToNotionUseCase = new AddTaskToNotionUseCase();
+        await addTaskToNotionUseCase.execute({
+          content: userLastMessage.message,
           userId: user.id,
         });
         break;

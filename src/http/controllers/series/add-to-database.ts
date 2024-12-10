@@ -2,15 +2,15 @@ import { z } from "zod";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { AddSerieToNotionUseCase } from "../../../use-cases/series/add-serie-to-notion";
 
+const addSerieBodySchema = z.object({
+  title: z.string(),
+  userId: z.string(),
+});
+
 export const addToDatabase = async (
   req: FastifyRequest,
   reply: FastifyReply
 ) => {
-  const addSerieBodySchema = z.object({
-    title: z.string(),
-    userId: z.string(),
-  });
-
   const { title, userId } = addSerieBodySchema.parse(req.body);
 
   const addSerieToNotionUseCase = new AddSerieToNotionUseCase();
