@@ -1,39 +1,47 @@
-export const makeButtonTemplate = (to: string) => {
+export const makeListTemplate = (to: string) => {
   return {
     messaging_product: "whatsapp",
     to,
     type: "interactive",
     interactive: {
-      type: "button",
+      type: "list",
       header: {
         type: "text",
         text: "O que você deseja adicionar ao Notion?",
       },
       body: {
-        text: "Clique em uma das opções abaixo:",
+        text: "Selecione uma das opções abaixo:",
+      },
+      footer: {
+        text: "Escolha uma das categorias.",
       },
       action: {
-        buttons: [
+        button: "Opções",
+        sections: [
           {
-            type: "reply",
-            reply: {
-              id: "serie",
-              title: "Série",
-            },
-          },
-          {
-            type: "reply",
-            reply: {
-              id: "movie",
-              title: "Filme",
-            },
-          },
-          {
-            type: "reply",
-            reply: {
-              id: "task",
-              title: "Lembrete",
-            },
+            title: "Categorias",
+            rows: [
+              {
+                id: "serie",
+                title: "Série",
+                description: "Adicionar uma nova série.",
+              },
+              {
+                id: "movie",
+                title: "Filme",
+                description: "Adicionar um novo filme.",
+              },
+              {
+                id: "task",
+                title: "Lembrete",
+                description: "Adicionar um lembrete ou tarefa.",
+              },
+              {
+                id: "appointment",
+                title: "Compromisso",
+                description: "Adicionar um compromisso ou evento.",
+              },
+            ],
           },
         ],
       },

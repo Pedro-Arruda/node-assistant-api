@@ -17,13 +17,13 @@ export class AddMovieToNotionUseCase {
       userNotionData
     );
 
-    const foundSerieCategory = await this.getMovieCategory(userNotionData);
+    const foundMovieCategory = await this.getMovieCategory(userNotionData);
 
     return await this.addToWatchlist({
       movieInfos,
       userNotionData,
       genres,
-      categoryId: foundSerieCategory.id,
+      categoryId: foundMovieCategory.id,
     });
   }
 

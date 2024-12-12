@@ -6,12 +6,12 @@ export const addToDatabase = async (
   req: FastifyRequest,
   reply: FastifyReply
 ) => {
-  const addSerieBodySchema = z.object({
+  const addMovieBodySchema = z.object({
     title: z.string(),
     userId: z.string(),
   });
 
-  const { title, userId } = addSerieBodySchema.parse(req.body);
+  const { title, userId } = addMovieBodySchema.parse(req.body);
 
   const addMovieToNotionUseCase = new AddMovieToNotionUseCase();
 

@@ -43,9 +43,9 @@ export class HandleWebhookEventUseCase {
     sender: string
   ) {
     const userLastMessage = await this.usersRepository.getLastMessage(user.id);
-    const buttonId = message.interactive.button_reply.id;
+    const listReplyId = message.interactive.list_reply.id;
 
-    switch (buttonId) {
+    switch (listReplyId) {
       case "serie":
         const addSerieToNotionUseCase = new AddSerieToNotionUseCase();
         await addSerieToNotionUseCase.execute({

@@ -1,6 +1,6 @@
 import { CreateTaskNotion } from "./types";
 
-export const createTaskItemProperties = async (data: CreateTaskNotion) => {
+export const createTaskItemProperties = (data: CreateTaskNotion) => {
   const { content } = data;
 
   return {

@@ -1,4 +1,4 @@
-import { makeButtonTemplate } from "../../http/controllers/webhook/utils";
+import { makeListTemplate } from "../../http/controllers/webhook/utils";
 
 export class WhatsappService {
   private accessToken: string;
@@ -9,7 +9,7 @@ export class WhatsappService {
 
   async sendNotionCategoriesButtons(to: string) {
     const url = `https://graph.facebook.com/v21.0/485600487973744/messages`;
-    const messageTemplate = makeButtonTemplate(to);
+    const messageTemplate = makeListTemplate(to);
 
     const response = await fetch(url, {
       method: "POST",
@@ -20,11 +20,13 @@ export class WhatsappService {
       body: JSON.stringify(messageTemplate),
     });
 
+    const data = await response.json();
+
     if (!response.ok) {
+      console.error(data);
+
       throw new Error("Erro ao enviar template de button");
     }
-
-    const data = await response.json();
 
     return data;
   }

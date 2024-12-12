@@ -22,33 +22,32 @@ export class NotionService {
   }
 
   async createWatchListPage(
-    watchListItem: CreateWatchListItemNotion,
+    watchlistItem: CreateWatchListItemNotion,
     databaseId: string
-  ): Promise<CreatePageResponse> {
-    try {
-      const response = await this.notion.pages.create({
-        parent: { database_id: databaseId },
-        cover: {
-          external: { url: watchListItem.image },
-        },
-        properties: await createWatchListItemProperties(watchListItem),
-      });
-
-      return response;
-    } catch (error) {
-      console.error(error);
-      throw new Error("Erro ao salvar dados no Notion");
-    }
+  ) {
+    await this.createPage(
+      watchlistItem,
+      databaseId,
+      createWatchListItemProperties,
+      watchlistItem.image
+    );
   }
 
-  async createTaskPage(
-    task: CreateTaskNotion,
-    databaseId: string
+  async createTaskPage(task: CreateTaskNotion, databaseId: string) {
+    await this.createPage(task, databaseId, createTaskItemProperties);
+  }
+
+  async createPage<T>(
+    item: T,
+    databaseId: string,
+    createPropertiesFn: (item: T) => any,
+    coverUrl?: string
   ): Promise<CreatePageResponse> {
     try {
       const response = await this.notion.pages.create({
         parent: { database_id: databaseId },
-        properties: await createTaskItemProperties(task),
+        ...(coverUrl ? { cover: { external: { url: coverUrl } } } : {}),
+        properties: await createPropertiesFn(item),
       });
 
       return response;
