@@ -14,6 +14,17 @@ export class HandleWebhookEventUseCase {
   ) {}
 
   async execute(messageBody: any) {
+    console.log(messageBody);
+
+    if (
+      !messageBody.entry ||
+      !messageBody.entry[0]?.changes ||
+      !messageBody.entry[0]?.changes[0]?.value?.messages
+    ) {
+      console.log(messageBody);
+      throw new Error("Estrutura de mensagem inválida.");
+    }
+
     const message = messageBody.entry[0].changes[0].value.messages[0];
     const sender = messageBody.entry[0].changes[0].value.messages[0].from;
 
@@ -86,6 +97,11 @@ export class HandleWebhookEventUseCase {
   }
 
   private async handleTextMessage(user: any, message: any, sender: string) {
+    if (!message.text || !message.text.body) {
+      console.log(message);
+
+      throw new Error("Mensagem de texto inválida.");
+    }
     const messageText = message.text.body;
 
     await this.userMessagesRepository.save({
