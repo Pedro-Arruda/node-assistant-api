@@ -21,7 +21,7 @@ export class HandleWebhookEventUseCase {
       !messageBody.entry[0]?.changes ||
       !messageBody.entry[0]?.changes[0]?.value?.messages
     ) {
-      console.log(messageBody.entry[0]?.changes[0]);
+      console.log(messageBody.entry[0]?.changes[0].value.statuses[0]);
       throw new Error("Estrutura de mensagem inválida.");
     }
 
