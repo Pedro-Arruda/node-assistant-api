@@ -32,7 +32,6 @@ export class AddTaskToNotionUseCase {
       },
       accessToken: userNotionData.accessToken,
       databaseId: userNotionData.tasksDatabase.notion_id,
-      // databaseId: "149ad9dc41b580d9a7c9e291d62411a1",
     });
   }
 }

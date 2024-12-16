@@ -14,17 +14,6 @@ export class HandleWebhookEventUseCase {
   ) {}
 
   async execute(messageBody: any) {
-    console.log(messageBody);
-
-    if (
-      !messageBody.entry ||
-      !messageBody.entry[0]?.changes ||
-      !messageBody.entry[0]?.changes[0]?.value?.messages
-    ) {
-      console.log(messageBody.entry[0]?.changes[0].value.statuses[0]);
-      throw new Error("Estrutura de mensagem inválida.");
-    }
-
     const message = messageBody.entry[0].changes[0].value.messages[0];
     const sender = messageBody.entry[0].changes[0].value.messages[0].from;
 
@@ -54,9 +43,9 @@ export class HandleWebhookEventUseCase {
     sender: string
   ) {
     const userLastMessage = await this.usersRepository.getLastMessage(user.id);
-    const listReplyId = message.interactive.list_reply.id;
+    const buttonId = message.interactive.button_reply.id;
 
-    switch (listReplyId) {
+    switch (buttonId) {
       case "serie":
         const addSerieToNotionUseCase = new AddSerieToNotionUseCase();
         await addSerieToNotionUseCase.execute({
@@ -97,11 +86,6 @@ export class HandleWebhookEventUseCase {
   }
 
   private async handleTextMessage(user: any, message: any, sender: string) {
-    if (!message.text || !message.text.body) {
-      console.log(message);
-
-      throw new Error("Mensagem de texto inválida.");
-    }
     const messageText = message.text.body;
 
     await this.userMessagesRepository.save({

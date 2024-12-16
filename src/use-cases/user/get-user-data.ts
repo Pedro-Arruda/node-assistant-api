@@ -12,6 +12,7 @@ export class GetUserDataUseCase {
     }
 
     const genreDatabase = userDatabases.find((db) => db.type === "genres");
+    const calendarDatabase = userDatabases.find((db) => db.type === "calendar");
 
     const categoryDatabase = userDatabases.find(
       (db) => db.type === "categories"
@@ -24,6 +25,7 @@ export class GetUserDataUseCase {
       !genreDatabase ||
       !categoryDatabase ||
       !contentsDatabase ||
+      !calendarDatabase ||
       !tasksDatabase
     ) {
       throw new Error("Databases não encontrados");
@@ -34,6 +36,7 @@ export class GetUserDataUseCase {
       categoryDatabase,
       contentsDatabase,
       tasksDatabase,
+      calendarDatabase,
       accessToken: user.notion_access_token,
     };
   }

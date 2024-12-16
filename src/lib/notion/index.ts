@@ -95,7 +95,7 @@ export class NotionService {
       async () => {
         const response = await this.notion.search({
           filter: { value: "database", property: "object" },
-          query: "Watchlist - ",
+          query: "Assistant - ",
         });
 
         if (!response.results || response.results.length === 0) {
@@ -104,7 +104,7 @@ export class NotionService {
 
         const databases = response.results.map((database: any) => {
           const type = database.title[0].plain_text
-            .replace("Watchlist - ", "")
+            .replace("Assistant - ", "")
             .toLowerCase();
 
           return {
