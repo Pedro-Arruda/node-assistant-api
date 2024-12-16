@@ -33,7 +33,7 @@ export class HandleWebhookEventUseCase {
   private isInteractiveMessage(message: any) {
     return (
       message.type === "interactive" &&
-      message.interactive.type === "button_reply"
+      message.interactive.type === "list_reply"
     );
   }
 
@@ -43,7 +43,7 @@ export class HandleWebhookEventUseCase {
     sender: string
   ) {
     const userLastMessage = await this.usersRepository.getLastMessage(user.id);
-    const buttonId = message.interactive.button_reply.id;
+    const buttonId = message.interactive.list_reply.id;
 
     switch (buttonId) {
       case "serie":
