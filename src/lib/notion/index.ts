@@ -2,6 +2,7 @@ import { Client } from "@notionhq/client";
 import { createWatchListItemProperties } from "./create-watch-list-item-properties";
 import { env } from "../../env";
 import {
+  CreateAppointmentNotion,
   CreateTaskNotion,
   CreateWatchListItemNotion,
   GetNotionAccessToken,
@@ -9,6 +10,7 @@ import {
 import { CreatePageResponse } from "@notionhq/client/build/src/api-endpoints";
 import { retry } from "../../utils/retry";
 import { createTaskItemProperties } from "./create-task-item-properties";
+import { createAppointmentItemProperties } from "./create-appointment-item-properties";
 
 export class NotionService {
   private notion: Client;
@@ -37,6 +39,17 @@ export class NotionService {
     await this.createPage(task, databaseId, createTaskItemProperties);
   }
 
+  async createAppointmentPage(
+    appointment: CreateAppointmentNotion,
+    databaseId: string
+  ) {
+    await this.createPage(
+      appointment,
+      databaseId,
+      createAppointmentItemProperties
+    );
+  }
+
   async createPage<T>(
     item: T,
     databaseId: string,
@@ -49,6 +62,8 @@ export class NotionService {
         ...(coverUrl ? { cover: { external: { url: coverUrl } } } : {}),
         properties: await createPropertiesFn(item),
       });
+
+      console.log("response", response);
 
       return response;
     } catch (error) {

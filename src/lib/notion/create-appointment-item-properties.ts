@@ -1,4 +1,4 @@
-import { CreateAppointmentNotion, CreateTaskNotion } from "./types";
+import { CreateAppointmentNotion } from "./types";
 
 export const createAppointmentItemProperties = async (
   data: CreateAppointmentNotion
@@ -6,8 +6,15 @@ export const createAppointmentItemProperties = async (
   const { title } = data;
 
   return {
-    title: {
-      title: [{ text: { title } }],
+    title: [
+      {
+        text: {
+          content: title,
+        },
+      },
+    ],
+    Date: {
+      start: new Date().toISOString().slice(0, 10),
     },
   };
 };

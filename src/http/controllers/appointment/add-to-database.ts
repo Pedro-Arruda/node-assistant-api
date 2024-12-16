@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { FastifyReply, FastifyRequest } from "fastify";
-import { AddAppointmentToNotionUseCase } from "../../../use-cases/appointment/add-task-to-notion";
+import { AddAppointmentToNotionUseCase } from "../../../use-cases/appointment/add-appointment-to-notion";
 
 export const addToDatabase = async (
   req: FastifyRequest,
@@ -16,10 +16,10 @@ export const addToDatabase = async (
   const addAppointmentToNotionUseCase = new AddAppointmentToNotionUseCase();
 
   try {
-    // await addAppointmentToNotionUseCase.execute({
-    //   content,
-    //   userId,
-    // });
+    await addAppointmentToNotionUseCase.execute({
+      title,
+      userId,
+    });
     reply.status(201).send({ message: `Appointment ${title} added.` });
   } catch (error: any) {
     reply.status(400).send({ error: error.message });

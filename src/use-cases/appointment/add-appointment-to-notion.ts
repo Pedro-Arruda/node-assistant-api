@@ -26,12 +26,13 @@ export class AddAppointmentToNotionUseCase {
     title: string;
   }) {
     const addAppointmentUseCase = new AddAppointmentItemUseCase();
+
     return await addAppointmentUseCase.execute({
       data: {
         title,
       },
       accessToken: userNotionData.accessToken,
-      databaseId: userNotionData.appointmentsDatabase.notion_id,
+      databaseId: userNotionData.calendarDatabase.notion_id,
     });
   }
 }
