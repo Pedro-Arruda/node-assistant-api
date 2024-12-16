@@ -5,6 +5,7 @@ import { UserRepository } from "../../repositories/user";
 import { AddSerieToNotionUseCase } from "../series/add-serie-to-notion";
 import { AddMovieToNotionUseCase } from "../movies/add-movie-to-notion";
 import { AddTaskToNotionUseCase } from "../tasks/add-task-to-notion";
+import { AddAppointmentToNotionUseCase } from "../appointment/add-appointment-to-notion";
 
 export class HandleWebhookEventUseCase {
   constructor(
@@ -66,6 +67,15 @@ export class HandleWebhookEventUseCase {
         const addTaskToNotionUseCase = new AddTaskToNotionUseCase();
         await addTaskToNotionUseCase.execute({
           content: userLastMessage.message,
+          userId: user.id,
+        });
+        break;
+
+      case "appointment":
+        const addAppointmentToNotionUseCase =
+          new AddAppointmentToNotionUseCase();
+        await addAppointmentToNotionUseCase.execute({
+          title: userLastMessage.message,
           userId: user.id,
         });
         break;
