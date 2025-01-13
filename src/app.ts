@@ -7,7 +7,8 @@ import { authRoutes } from "./http/controllers/auth/routes";
 import fastifyFormBody from "@fastify/formbody";
 import { webhookRoutes } from "./http/controllers/webhook/routes";
 import { tasksRoutes } from "./http/controllers/tasks/routes";
-import { appointmentRoutes } from "./http/controllers/appointment/routes";
+import { appointmentRoutes } from "./http/controllers/appointments/routes";
+import { booksRoutes } from "./http/controllers/books/routes";
 
 export const app = fastify();
 
@@ -20,6 +21,7 @@ app.register(authRoutes);
 app.register(webhookRoutes);
 app.register(tasksRoutes);
 app.register(appointmentRoutes);
+app.register(booksRoutes);
 
 app.setErrorHandler((error, _, reply) => {
   if (error instanceof ZodError) {

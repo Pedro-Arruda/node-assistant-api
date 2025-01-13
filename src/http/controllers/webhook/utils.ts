@@ -41,6 +41,11 @@ export const makeListTemplate = (to: string) => {
                 title: "Compromisso",
                 description: "Adicionar um compromisso ou evento.",
               },
+              {
+                id: "book",
+                title: "Livro",
+                description: "Adicionar um livro que quer ler ou já leu.",
+              },
             ],
           },
         ],

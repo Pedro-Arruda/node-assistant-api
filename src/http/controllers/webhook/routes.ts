@@ -12,8 +12,6 @@ export const webhookRoutes = async (app: FastifyInstance) => {
     const challenge = req.query["hub.challenge"];
 
     if (mode === "subscribe" && token === VERIFY_TOKEN) {
-      console.log("Webhook verificado com sucesso!");
-
       res.status(200).send(challenge);
     } else {
       res.status(403).send("Erro de verificação");

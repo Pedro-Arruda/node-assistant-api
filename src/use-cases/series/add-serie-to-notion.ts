@@ -87,7 +87,7 @@ export class AddSerieToNotionUseCase {
     const addWatchListUseCase = new AddWatchListItemUseCase();
     return await addWatchListUseCase.execute({
       data: {
-        duration: `${serieInfos.details.number_of_seasons} seasons and ${serieInfos.details.number_of_episodes} episodes`,
+        duration: `${serieInfos.details.number_of_seasons} temporadas e ${serieInfos.details.number_of_episodes} episódios`,
         image: serieInfos.details.backdrop_path,
         release_date: serieInfos.details.release_date,
         streamings: serieInfos.streamings,

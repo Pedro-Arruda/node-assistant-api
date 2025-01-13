@@ -1,5 +1,6 @@
 import { MovieApiDatabaseService } from "../../lib/the-movie-database-service";
 import { PrismaUsersRepository } from "../../repositories/prisma/prisma-user";
+import { convertMinutesToTimeString } from "../../utils/convertMinutesToTimeString";
 import { AddWatchListItemUseCase } from "../notion/add-watch-list-item-to-notion";
 import { MapGenreUseCase } from "../notion/map-genres";
 import { GetCategoryIdUseCase } from "../user/get-category-id";
@@ -61,7 +62,7 @@ export class AddMovieToNotionUseCase {
     );
 
     const foundMovie = notionCategoriesId.find(
-      (page: any) => page.properties.Name.title[0]?.plain_text === "Movies"
+      (page: any) => page.properties.Name.title[0]?.plain_text === "Filmes"
     );
 
     if (!foundMovie) throw new Error("Movies database not found.");
@@ -80,9 +81,10 @@ export class AddMovieToNotionUseCase {
     categoryId: string;
   }) {
     const addWatchListUseCase = new AddWatchListItemUseCase();
+
     return await addWatchListUseCase.execute({
       data: {
-        duration: `${movieInfos.details.number_of_seasons} seasons and ${movieInfos.details.number_of_episodes} episodes`,
+        duration: convertMinutesToTimeString(movieInfos.details.runtime),
         image: movieInfos.details.backdrop_path,
         release_date: movieInfos.details.release_date,
         streamings: movieInfos.streamings,

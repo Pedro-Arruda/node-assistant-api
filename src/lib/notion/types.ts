@@ -1,3 +1,5 @@
+import { BookInfo } from "../google-books/types";
+
 export interface CreateWatchListItemNotion {
   title: string;
   image: string;
@@ -9,6 +11,8 @@ export interface CreateWatchListItemNotion {
   release_date: string;
   categorie: string;
 }
+
+export interface CreateBookNotion extends BookInfo {}
 
 export interface CreateTaskNotion {
   content: string;
