@@ -36,7 +36,7 @@ export const createBookItemProperties = (data: BookInfo) => {
       rich_text: [
         {
           text: {
-            content: description.substring(0, 10).trimEnd().concat("...") || "",
+            content: description.substring(0, 1997).trimEnd().concat("...") || "",
           },
         },
       ],
