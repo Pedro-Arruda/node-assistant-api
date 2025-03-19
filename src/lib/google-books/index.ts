@@ -17,13 +17,24 @@ export class GoogleBooksService implements IOpenLibraryService {
       const data = await response.json();
 
       if (data.items && data.items.length > 0) {
-        const exactNameBook = data.items.find((book: any) =>
+        // const exactNameBook = data.items.find((book: any) =>
+        //   book.volumeInfo.title.toLowerCase().includes(title.toLowerCase())
+        // );
+
+        const booksWithCover = data.items.filter(
+          (book: any) => book.volumeInfo.imageLinks
+        );
+
+        console.log(booksWithCover);
+        
+
+        const exactNameBook = booksWithCover.find((book: any) =>
           book.volumeInfo.title.toLowerCase().includes(title.toLowerCase())
         );
 
         const book = exactNameBook
           ? exactNameBook.volumeInfo
-          : data.items[0].volumeInfo;
+          : booksWithCover[0].volumeInfo;
 
         const bookInfo: BookInfo = {
           title: book.title || "Título não disponível",
