@@ -1,8 +1,10 @@
 import { MovieApiDatabaseService } from "../../lib/the-movie-database-service";
 import { convertMinutesToTimeString } from "../../utils/convertMinutesToTimeString";
 import { AddWatchListItemUseCase } from "../notion/add-watch-list-item-to-notion";
-import { MapGenreUseCase } from "../notion/map-genres";
-import { GetCategoryIdUseCase } from "../user/get-category-id";
+import {
+  mapGenresToNotion,
+  findCategoryByName,
+} from "../notion/notion-utils";
 import { UserService } from "../../services/user-service";
 import { GetMovieInfoUseCase } from "./get-movie-infos";
 
@@ -17,12 +19,12 @@ export class AddMovieToNotionUseCase {
 
     const userNotionData = await this.userService.getUserNotionData(userId);
 
-    const genres = await this.getGenresMappedToNotion(
-      movieInfos.genres,
+    const genres = await mapGenresToNotion(movieInfos.genres, userNotionData);
+
+    const foundMovieCategory = await findCategoryByName(
+      "Filmes",
       userNotionData
     );
-
-    const foundMovieCategory = await this.getMovieCategory(userNotionData);
 
     return await this.addToWatchlist({
       movieInfos,
@@ -38,34 +40,6 @@ export class AddMovieToNotionUseCase {
   }
 
 
-  private async getGenresMappedToNotion(genres: string[], userNotionData: any) {
-    const getGenreDatabaseIdUseCase = new MapGenreUseCase({
-      genresDatabaseId: userNotionData.genreDatabase.notion_id,
-    });
-    const notionGenres = await getGenreDatabaseIdUseCase.execute(
-      userNotionData.accessToken
-    );
-
-    return genres
-      .map((genre) => ({ id: notionGenres[genre] }))
-      .filter((genre) => genre.id);
-  }
-
-  private async getMovieCategory(userNotionData: any) {
-    const getCategoryIdUseCase = new GetCategoryIdUseCase({
-      categoryDatabaseId: userNotionData.categoryDatabase.notion_id,
-    });
-    const notionCategoriesId = await getCategoryIdUseCase.execute(
-      userNotionData.accessToken
-    );
-
-    const foundMovie = notionCategoriesId.find(
-      (page: any) => page.properties.Name.title[0]?.plain_text === "Filmes"
-    );
-
-    if (!foundMovie) throw new Error("Movies database not found.");
-    return foundMovie;
-  }
 
   private async addToWatchlist({
     movieInfos,
