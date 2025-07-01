@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { FastifyReply, FastifyRequest } from "fastify";
-import { AddAppointmentToNotionUseCase } from "../../../use-cases/appointment/add-appointment-to-notion";
+import { AddAppointmentToNotionUseCase } from "../../../use-cases/appointments/add-appointment-to-notion";
 
 export const addToDatabase = async (
   req: FastifyRequest,

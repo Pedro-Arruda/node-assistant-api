@@ -1,21 +1,16 @@
-import { GetUserDataUseCase } from "../user/get-user-data";
-import { PrismaUsersRepository } from "../../repositories/prisma/prisma-user";
 import { AddAppointmentItemUseCase } from "../notion/add-appointment-item-to-notion";
+import { UserService } from "../../services/user-service";
 
 export class AddAppointmentToNotionUseCase {
+  constructor(private userService: UserService = new UserService()) {}
+
   async execute({ title, userId }: { title: string; userId: string }) {
-    const userNotionData = await this.getUserNotionData(userId);
+    const userNotionData = await this.userService.getUserNotionData(userId);
 
     return this.addToAppointments({
       userNotionData,
       title,
     });
-  }
-
-  private async getUserNotionData(userId: string) {
-    const usersRepository = new PrismaUsersRepository();
-    const getUserNotionData = new GetUserDataUseCase(usersRepository);
-    return await getUserNotionData.execute(userId);
   }
 
   private async addToAppointments({
