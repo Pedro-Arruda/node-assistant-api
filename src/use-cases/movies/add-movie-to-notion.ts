@@ -1,17 +1,21 @@
 import { MovieApiDatabaseService } from "../../lib/the-movie-database-service";
-import { PrismaUsersRepository } from "../../repositories/prisma/prisma-user";
 import { convertMinutesToTimeString } from "../../utils/convertMinutesToTimeString";
 import { AddWatchListItemUseCase } from "../notion/add-watch-list-item-to-notion";
 import { MapGenreUseCase } from "../notion/map-genres";
 import { GetCategoryIdUseCase } from "../user/get-category-id";
-import { GetUserDataUseCase } from "../user/get-user-data";
+import { UserService } from "../../services/user-service";
 import { GetMovieInfoUseCase } from "./get-movie-infos";
 
 export class AddMovieToNotionUseCase {
+  constructor(
+    private movieDatabaseService: MovieApiDatabaseService = new MovieApiDatabaseService(),
+    private userService: UserService = new UserService()
+  ) {}
+
   async execute({ title, userId }: { title: string; userId: string }) {
     const movieInfos = await this.getMovieInfos(title);
 
-    const userNotionData = await this.getUserNotionData(userId);
+    const userNotionData = await this.userService.getUserNotionData(userId);
 
     const genres = await this.getGenresMappedToNotion(
       movieInfos.genres,
@@ -29,16 +33,10 @@ export class AddMovieToNotionUseCase {
   }
 
   private async getMovieInfos(title: string) {
-    const movieApiService = new MovieApiDatabaseService();
-    const getMovieDetailsUseCase = new GetMovieInfoUseCase(movieApiService);
+    const getMovieDetailsUseCase = new GetMovieInfoUseCase(this.movieDatabaseService);
     return await getMovieDetailsUseCase.execute({ title });
   }
 
-  private async getUserNotionData(userId: string) {
-    const usersRepository = new PrismaUsersRepository();
-    const getUserNotionData = new GetUserDataUseCase(usersRepository);
-    return await getUserNotionData.execute(userId);
-  }
 
   private async getGenresMappedToNotion(genres: string[], userNotionData: any) {
     const getGenreDatabaseIdUseCase = new MapGenreUseCase({

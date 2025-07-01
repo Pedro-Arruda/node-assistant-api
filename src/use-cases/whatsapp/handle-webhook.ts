@@ -5,7 +5,7 @@ import { UserRepository } from "../../repositories/user";
 import { AddSerieToNotionUseCase } from "../series/add-serie-to-notion";
 import { AddMovieToNotionUseCase } from "../movies/add-movie-to-notion";
 import { AddTaskToNotionUseCase } from "../tasks/add-task-to-notion";
-import { AddAppointmentToNotionUseCase } from "../appointment/add-appointment-to-notion";
+import { AddAppointmentToNotionUseCase } from "../appointments/add-appointment-to-notion";
 import { AddBookToNotionUseCase } from "../books/add-book-to-notion";
 
 export class HandleWebhookEventUseCase {
