@@ -9,6 +9,7 @@ import { webhookRoutes } from "./http/controllers/webhook/routes";
 import { tasksRoutes } from "./http/controllers/tasks/routes";
 import { appointmentRoutes } from "./http/controllers/appointments/routes";
 import { booksRoutes } from "./http/controllers/books/routes";
+import { artistsRoutes } from "./http/controllers/artists/routes";
 
 export const app = fastify();
 
@@ -22,6 +23,7 @@ app.register(webhookRoutes);
 app.register(tasksRoutes);
 app.register(appointmentRoutes);
 app.register(booksRoutes);
+app.register(artistsRoutes);
 
 app.setErrorHandler((error, _, reply) => {
   if (error instanceof ZodError) {

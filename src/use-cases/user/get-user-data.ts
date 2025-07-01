@@ -21,6 +21,7 @@ export class GetUserDataUseCase {
     const contentsDatabase = userDatabases.find((db) => db.type === "contents");
     const tasksDatabase = userDatabases.find((db) => db.type === "tasks");
     const booksDatabase = userDatabases.find((db) => db.type === "books");
+    const artistsDatabase = userDatabases.find((db) => db.type === "artists");
 
     if (
       !genreDatabase ||
@@ -28,7 +29,8 @@ export class GetUserDataUseCase {
       !contentsDatabase ||
       !calendarDatabase ||
       !booksDatabase ||
-      !tasksDatabase
+      !tasksDatabase ||
+      !artistsDatabase
     ) {
       throw new Error("Databases não encontrados");
     }
@@ -40,6 +42,7 @@ export class GetUserDataUseCase {
       tasksDatabase,
       calendarDatabase,
       booksDatabase,
+      artistsDatabase,
       accessToken: user.notion_access_token,
     };
   }

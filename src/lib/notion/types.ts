@@ -1,4 +1,5 @@
 import { BookInfo } from "../google-books/types";
+import { ArtistInfo } from "../spotify/types";
 
 export interface CreateWatchListItemNotion {
   title: string;
@@ -13,6 +14,8 @@ export interface CreateWatchListItemNotion {
 }
 
 export interface CreateBookNotion extends BookInfo {}
+
+export interface CreateArtistNotion extends ArtistInfo {}
 
 export interface CreateTaskNotion {
   content: string;
