@@ -1,30 +1,13 @@
-import { NotionService } from "../../lib/notion";
+import { AddItemToNotionUseCase } from "./add-item-to-notion";
 
-interface AddAppointmentItemUseCaseRequest {
-  data: {
-    title: string;
-  };
-  accessToken: string;
-  databaseId: string;
+interface AddAppointmentItemRequest {
+  title: string;
 }
 
-export class AddAppointmentItemUseCase {
-  constructor() {}
-
-  async execute({
-    data,
-    accessToken,
-    databaseId,
-  }: AddAppointmentItemUseCaseRequest): Promise<any> {
-    const notionService = new NotionService({
-      accessToken,
-    });
-
-    const response = await notionService.createAppointmentPage(
-      data,
-      databaseId
+export class AddAppointmentItemUseCase extends AddItemToNotionUseCase<AddAppointmentItemRequest> {
+  constructor() {
+    super((service, data, databaseId) =>
+      service.createAppointmentPage(data, databaseId)
     );
-
-    return response;
   }
 }

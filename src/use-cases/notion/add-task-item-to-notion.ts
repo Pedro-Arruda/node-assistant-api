@@ -1,27 +1,13 @@
-import { NotionService } from "../../lib/notion";
+import { AddItemToNotionUseCase } from "./add-item-to-notion";
 
-interface AddTaskItemUseCaseRequest {
-  data: {
-    content: string;
-  };
-  accessToken: string;
-  databaseId: string;
+interface AddTaskItemRequest {
+  content: string;
 }
 
-export class AddTaskItemUseCase {
-  constructor() {}
-
-  async execute({
-    data,
-    accessToken,
-    databaseId,
-  }: AddTaskItemUseCaseRequest): Promise<any> {
-    const notionService = new NotionService({
-      accessToken,
-    });
-
-    const response = await notionService.createTaskPage(data, databaseId);
-
-    return response;
+export class AddTaskItemUseCase extends AddItemToNotionUseCase<AddTaskItemRequest> {
+  constructor() {
+    super((service, data, databaseId) =>
+      service.createTaskPage(data, databaseId)
+    );
   }
 }

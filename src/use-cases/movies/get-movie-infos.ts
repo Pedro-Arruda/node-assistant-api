@@ -1,5 +1,9 @@
 import { MovieApiDatabaseService } from "../../lib/the-movie-database-service";
 import { MovieDetails } from "../../lib/the-movie-database-service/types";
+import {
+  extractStreamingNames,
+  prependImageBaseUrl,
+} from "../../utils/tmdb";
 
 interface GetMovieInfoUseCaseRequest {
   title: string;
@@ -25,32 +29,9 @@ export class GetMovieInfoUseCase {
       id
     );
 
-    const baseImageURL = "https://image.tmdb.org/t/p/w500";
-    details.backdrop_path = `${baseImageURL}${details.backdrop_path}`;
+    details.backdrop_path = prependImageBaseUrl(details.backdrop_path);
 
-    let streamingsNames: string[] = [];
-
-    if (streamings.results.BR) {
-      const brazilianStreamings = streamings.results.BR;
-
-      if (brazilianStreamings.buy) {
-        brazilianStreamings.buy.map(({ provider_name }) =>
-          streamingsNames.push(provider_name)
-        );
-      }
-
-      if (brazilianStreamings.flatrate) {
-        brazilianStreamings.flatrate.map(({ provider_name }) =>
-          streamingsNames.push(provider_name)
-        );
-      }
-
-      if (brazilianStreamings.rent) {
-        brazilianStreamings.rent.map(({ provider_name }) =>
-          streamingsNames.push(provider_name)
-        );
-      }
-    }
+    const streamingsNames = extractStreamingNames(streamings);
 
     const genres = details.genres.map((genre) => genre.name);
 

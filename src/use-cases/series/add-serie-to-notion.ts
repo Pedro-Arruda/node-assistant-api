@@ -1,10 +1,12 @@
 import { MovieApiDatabaseService } from "../../lib/the-movie-database-service";
 import { SerieDetails } from "../../lib/the-movie-database-service/types";
-import { GetCategoryIdUseCase } from "../user/get-category-id";
 import { GetSerieInfoUseCase } from "./get-serie-infos";
 import { UserService } from "../../services/user-service";
-import { MapGenreUseCase } from "../notion/map-genres";
 import { AddWatchListItemUseCase } from "../notion/add-watch-list-item-to-notion";
+import {
+  mapGenresToNotion,
+  findCategoryByName,
+} from "../notion/notion-utils";
 
 export class AddSerieToNotionUseCase {
   constructor(
@@ -17,12 +19,12 @@ export class AddSerieToNotionUseCase {
 
     const userNotionData = await this.userService.getUserNotionData(userId);
 
-    const genres = await this.getGenresMappedToNotion(
-      serieInfos.genres,
+    const genres = await mapGenresToNotion(serieInfos.genres, userNotionData);
+
+    const foundSerieCategory = await findCategoryByName(
+      "Series",
       userNotionData
     );
-
-    const foundSerieCategory = await this.getSerieCategory(userNotionData);
 
     return this.addToWatchlist({
       serieInfos,
@@ -38,34 +40,6 @@ export class AddSerieToNotionUseCase {
   }
 
 
-  private async getGenresMappedToNotion(genres: string[], userNotionData: any) {
-    const getGenreDatabaseIdUseCase = new MapGenreUseCase({
-      genresDatabaseId: userNotionData.genreDatabase.notion_id,
-    });
-    const notionGenres = await getGenreDatabaseIdUseCase.execute(
-      userNotionData.accessToken
-    );
-
-    return genres
-      .map((genre) => ({ id: notionGenres[genre] }))
-      .filter((genre) => genre.id);
-  }
-
-  private async getSerieCategory(userNotionData: any) {
-    const getCategoryIdUseCase = new GetCategoryIdUseCase({
-      categoryDatabaseId: userNotionData.categoryDatabase.notion_id,
-    });
-    const notionCategoriesId = await getCategoryIdUseCase.execute(
-      userNotionData.accessToken
-    );
-
-    const foundSerie = notionCategoriesId.find(
-      (page: any) => page.properties.Name.title[0]?.plain_text === "Series"
-    );
-
-    if (!foundSerie) throw new Error("Serie database not found.");
-    return foundSerie;
-  }
 
   private async addToWatchlist({
     serieInfos,

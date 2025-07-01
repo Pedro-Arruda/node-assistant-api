@@ -1,26 +1,12 @@
-import { NotionService } from "../../lib/notion";
 import { BookInfo } from "../../lib/google-books/types";
+import { AddItemToNotionUseCase } from "./add-item-to-notion";
 
-interface AddBookItemUseCaseRequest {
-  data: BookInfo;
-  accessToken: string;
-  databaseId: string;
-}
+interface AddBookItemRequest extends BookInfo {}
 
-export class AddBookItemUseCase {
-  constructor() {}
-
-  async execute({
-    data,
-    accessToken,
-    databaseId,
-  }: AddBookItemUseCaseRequest): Promise<any> {
-    const notionService = new NotionService({
-      accessToken,
-    });
-
-    const response = await notionService.createBookListPage(data, databaseId);
-
-    return response;
+export class AddBookItemUseCase extends AddItemToNotionUseCase<AddBookItemRequest> {
+  constructor() {
+    super((service, data, databaseId) =>
+      service.createBookListPage(data, databaseId)
+    );
   }
 }
