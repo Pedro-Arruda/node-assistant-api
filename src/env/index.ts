@@ -12,6 +12,8 @@ const envSchema = z.object({
   NOTION_CLIENT_ID: z.string(),
   NOTION_CLIENT_SECRET: z.string(),
   WHATSAPP_ACCESS_TOKEN: z.string(),
+  SPOTIFY_CLIENT_ID: z.string().optional(),
+  SPOTIFY_CLIENT_SECRET: z.string().optional(),
 });
 
 const _env = envSchema.safeParse(process.env);

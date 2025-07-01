@@ -4,6 +4,7 @@ import { env } from "../../env";
 import {
   CreateAppointmentNotion,
   CreateBookNotion,
+  CreateArtistNotion,
   CreateTaskNotion,
   CreateWatchListItemNotion,
   GetNotionAccessToken,
@@ -13,6 +14,7 @@ import { retry } from "../../utils/retry";
 import { createTaskItemProperties } from "./create-task-item-properties";
 import { createAppointmentItemProperties } from "./create-appointment-item-properties";
 import { createBookItemProperties } from "./create-book-list-item-properties";
+import { createArtistItemProperties } from "./create-artist-item-properties";
 
 export class NotionService {
   private notion: Client;
@@ -43,6 +45,15 @@ export class NotionService {
       databaseId,
       createBookItemProperties,
       item.cover
+    );
+  }
+
+  async createArtistPage(item: CreateArtistNotion, databaseId: string) {
+    await this.createPage(
+      item,
+      databaseId,
+      createArtistItemProperties,
+      item.image
     );
   }
 
